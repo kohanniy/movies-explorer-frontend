@@ -1,0 +1,98 @@
+.main-nav {
+  display: flex;
+  align-items: center;
+  color: #000;
+}
+
+.main-nav_main-page {
+  color: #fff;
+}
+
+.main-nav__link {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  margin-left: 20px;
+  position: relative;
+}
+
+.main-nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #000;
+  transition: transform 0.5s ease;
+  transform-origin: center;
+  transform: scaleX(0);
+}
+
+.main-nav_main-page .main-nav__link::after {
+  background: #fff;
+}
+
+.main-nav__link:hover::after {
+  transform: scaleX(1);
+}
+
+.main-nav__link_active {
+  font-weight: 500;
+}
+
+.main-nav__auth-link {
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 3px;
+  background-color: transparent;
+  margin-left: 10px;
+  transition: all 0.5s ease;
+}
+
+.main-nav__auth-link:hover {
+  background-color: #2BE080;
+  color: #000;
+}
+
+.main-nav__profile {
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.14;
+  padding: 8px 12px;
+  border: 2px solid rgba(170, 170, 170, 0.2);
+  border-radius: 50px;
+  transition: border-color 0.5s ease;
+}
+
+.main-nav__profile:hover {
+  border-color:rgba(170, 170, 170, 1);
+}
+
+.main-nav_main-page .main-nav__profile {
+  border-color: rgba(250, 250, 250, 0.2);
+}
+
+.main-nav_main-page .main-nav__profile:hover {
+  border-color: rgba(250, 250, 250, 1);
+}
+
+.main-nav__profile-icon {
+  width: 12px;
+  height: 14px;
+  margin-right: 7px;
+}
+
+.main-nav__profile-icon path {
+  fill: #000;
+}
+
+.main-nav_main-page .main-nav__profile-icon path {
+  fill: #fff;
+}
+
