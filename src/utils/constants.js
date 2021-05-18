@@ -1,4 +1,4 @@
-export const authLinks = [
+export const userLinks = [
   {
     text: 'Регистрация',
     link: '/signup'
@@ -9,7 +9,7 @@ export const authLinks = [
   }
 ];
 
-export const navLinks = [
+export const moviesLinks = [
   {
     text: 'Фильмы',
     link: '/movies',

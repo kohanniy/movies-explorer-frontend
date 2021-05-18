@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import LoginPage from '../Pages/LoginPage/LoginPage';
@@ -8,15 +8,28 @@ import MoviesPage from '../Pages/MoviesPage/MoviesPage';
 import ProfilePage from '../Pages/ProfilePage/ProfilePage';
 import RegisterPage from '../Pages/RegisterPage/RegisterPage';
 import SavedMoviesPage from '../Pages/SavedMoviesPage/SavedMoviesPage';
+import useWindowWidth from '../../hooks/useWindowWidth';
 
 function App() {
-  const [ isMainPage, setIsMainPage ] = React.useState(true);
-  const [ loggedIn, setIsLoggedIn ] = React.useState(false);
+  const [ isHomePage, setIsHomePage ] = React.useState(false);
+  const [ isAuthPage, setIsAuthPage ] = React.useState(false);
+  const [ loggedIn, setIsLoggedIn ] = React.useState(true);
+  const windowWidth = useWindowWidth();
+
+  const location = useLocation();
+  console.log(windowWidth);
+
+  React.useEffect(() => {
+
+    if (location.pathname === '/') setIsHomePage(true);
+    if (location.pathname === '/signin' || location.pathname === '/signup') setIsAuthPage(true);
+  }, [location.pathname]);
+
   return (
     <>
       <Header
-        isMainPage={isMainPage}
-        loggedIn={loggedIn}
+        isHomePage={isHomePage}
+        isAuthPage={isAuthPage}
       />
       <Switch>
         <Route exact path="/">

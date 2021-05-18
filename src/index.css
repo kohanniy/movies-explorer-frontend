@@ -1,10 +1,17 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/fonts.css);
+@import url(./vendor/fonts/iconFonts.css);
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+:root {
+  --font-family: 'Inter', Arial, sans-serif;
+  --primary-color: #2be080;
+  --background-mainPage: #073042;
 }
 
 html {
@@ -96,7 +103,7 @@ button,
 .page {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', Arial, sans-serif;
+  /* font-family: 'Inter', Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;

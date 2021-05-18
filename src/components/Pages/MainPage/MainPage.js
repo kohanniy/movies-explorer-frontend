@@ -1,4 +1,4 @@
-const MainPage = (props) => {
+const MainPage = () => {
   return (
     <h1>MainPage</h1>
   );

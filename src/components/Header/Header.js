@@ -1,28 +1,33 @@
 import { Link } from 'react-router-dom';
-
 import './Header.css';
-import logo from '../../images/logo.svg';
-import Navigation from '../Navigation/Navigation';
 import Section from '../Section/Section';
+import logo from '../../images/logo.svg';
 
-const Header = ({ isMainPage, loggedIn }) => {
-  let classes = 'header page__header'
+const Header = ({ isHomePage, isAuthPage }) => {
+  let headerClasses = 'header page_header';
+  let headerSectionClasses = 'header__section'
 
-  if (isMainPage) classes += ' header_main-page';
+  if (isHomePage) headerClasses += ' header_pages_home';
+
+  if (isAuthPage) {
+    headerClasses += ' header_padding_auth';
+    headerSectionClasses += ' header__section_pages_auth'
+  } else {
+    headerClasses += ' header_padding_all';
+  }
 
   return (
-    <header className={classes}>
+    <header className={headerClasses}>
       <Section
-        additionalClass='header__section'
+        isAuthPage={isAuthPage}
+        additionalClass={headerSectionClasses}
       >
-        <Link to="/"><img src={logo} alt="логотип" className="header__logo" /></Link>
-        <Navigation
-          isMainPage={isMainPage}
-          loggedIn={loggedIn}
-        />
+        <Link to='/'>
+          <img src={logo} alt='логотип' className='header__logo' />
+        </Link>
       </Section>
     </header>
   );
-};
+}
 
 export default Header;
