@@ -1,4 +1,4 @@
-const LoginPage = (props) => {
+const LoginPage = () => {
   return (
     <h1>LoginPage</h1>
   );

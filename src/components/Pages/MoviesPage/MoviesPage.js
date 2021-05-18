@@ -1,4 +1,4 @@
-const MoviesPage = (props) => {
+const MoviesPage = () => {
   return (
     <h1>MoviesPage</h1>
   );
