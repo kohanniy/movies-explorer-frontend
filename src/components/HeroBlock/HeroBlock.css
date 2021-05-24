@@ -1,0 +1,36 @@
+.hero {
+  display: flex;
+  justify-content: center;
+  background: var(--background-mainPage) url(../../images/hero-logo.svg) center/320px no-repeat;
+  font-family: var(--font-family);
+  padding-top: 184px;
+  padding-bottom: 224px;
+}
+
+.hero__title {
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.16;
+  letter-spacing: -2px;
+  text-align: center;
+  color: #fff;
+  max-width: 730px;
+}
+
+@media screen and (max-width: 768px) {
+  .hero {
+    padding: 326px 19px 342px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .hero {
+    padding: 207px 10px 246px;
+    background-size: 248px;
+  }
+
+  .hero__title {
+    font-size: 31px;
+    line-height: 1.26;
+  }
+}
