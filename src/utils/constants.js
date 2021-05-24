@@ -37,10 +37,34 @@ export const navTabData = [
   },
   {
     text: 'Технологии',
-    hash: 'technologies',
+    hash: 'techs',
   },
   {
     text: 'Студент',
     hash: 'student',
   },
 ];
+
+export const aboutProjectDescription = [
+  {
+    title: `Дипломный проект включал 5 этапов`,
+    description: 'Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.',
+  },
+  {
+    title: 'На выполнение диплома ушло 5 недель',
+    description: 'У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.',
+  },
+];
+
+export const aboutProjectSchedule = [
+  {
+    duration: '1 неделя',
+    name: 'Back-end',
+    modifier: 'backend',
+  },
+  {
+    duration: '4 недели',
+    name: 'Front-end',
+    modifier: 'frontend',
+  },
+]
