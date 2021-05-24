@@ -1,19 +1,40 @@
-import { Link } from 'react-router-dom';
 import './Header.css';
 import Section from '../Section/Section';
-import logo from '../../images/logo.svg';
+import Logo from '../Logo/Logo';
+import Navigation from '../Navigation/Navigation';
+import OpenNavButton from '../OpenNavButton/OpenNavButton';
 
-const Header = ({ isHomePage, isAuthPage }) => {
-  let headerClasses = 'header page_header';
-  let headerSectionClasses = 'header__section'
+const Header = (props) => {
+  const {
+    isHomePage,
+    isAuthPage,
+    loggedIn,
+    windowWidth,
+    applicationLinks,
+    handleOpenNavButtonClick,
+    handleCloseNavButtonClick,
+    navOpened,
+  } = props;
+  let headerClasses = 'page__header header';
+  let headerSectionClasses = 'header__section';
+  let navigation = null;
 
   if (isHomePage) headerClasses += ' header_pages_home';
 
   if (isAuthPage) {
     headerClasses += ' header_padding_auth';
-    headerSectionClasses += ' header__section_pages_auth'
+    headerSectionClasses += ' header__section_pages_auth';
+    navigation = null;
   } else {
     headerClasses += ' header_padding_all';
+    navigation = <Navigation
+                   isHomePage={isHomePage}
+                   windowWidth={windowWidth}
+                   loggedIn={loggedIn}
+                   applicationLinks={applicationLinks}
+                   handleCloseNavButtonClick={handleCloseNavButtonClick}
+                   navOpened={navOpened}
+                 />
   }
 
   return (
@@ -22,9 +43,14 @@ const Header = ({ isHomePage, isAuthPage }) => {
         isAuthPage={isAuthPage}
         additionalClass={headerSectionClasses}
       >
-        <Link to='/'>
-          <img src={logo} alt='логотип' className='header__logo' />
-        </Link>
+        <Logo className='header__logo' />
+        {windowWidth <= 768
+          ? <OpenNavButton
+              isHomePage={isHomePage}
+              handleOpenNavButtonClick={handleOpenNavButtonClick}
+            />
+          : null}
+        {navigation}
       </Section>
     </header>
   );
