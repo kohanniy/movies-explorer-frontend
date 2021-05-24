@@ -4,7 +4,7 @@
   font-family: var(--font-family);
 }
 
-.nav-tab__section {
+.nav-tab__container {
   display: flex;
   justify-content: center;
   align-items: center;

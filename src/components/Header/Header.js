@@ -1,5 +1,5 @@
 import './Header.css';
-import Section from '../Section/Section';
+import Container from '../Container/Container';
 import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 import OpenNavButton from '../OpenNavButton/OpenNavButton';
@@ -16,14 +16,14 @@ const Header = (props) => {
     navOpened,
   } = props;
   let headerClasses = 'page__header header';
-  let headerSectionClasses = 'header__section';
+  let headerContainerClasses = 'header__container';
   let navigation = null;
 
   if (isHomePage) headerClasses += ' header_pages_home';
 
   if (isAuthPage) {
     headerClasses += ' header_padding_auth';
-    headerSectionClasses += ' header__section_pages_auth';
+    headerContainerClasses += ' header__container_pages_auth';
     navigation = null;
   } else {
     headerClasses += ' header_padding_all';
@@ -39,9 +39,9 @@ const Header = (props) => {
 
   return (
     <header className={headerClasses}>
-      <Section
+      <Container
         isAuthPage={isAuthPage}
-        additionalClass={headerSectionClasses}
+        additionalClass={headerContainerClasses}
       >
         <Logo className='header__logo' />
         {windowWidth <= 768 && loggedIn
@@ -51,7 +51,7 @@ const Header = (props) => {
             />
           : null}
         {navigation}
-      </Section>
+      </Container>
     </header>
   );
 }

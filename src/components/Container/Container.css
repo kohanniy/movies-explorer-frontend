@@ -1,28 +1,28 @@
-.section {
+.container {
   margin: 0 auto;
 }
 
-.section_pages_all {
+.container_pages_all {
   width: 89%;
   max-width: 1140px;
 }
 
-.section_pages_auth {
+.container_pages_auth {
   width: 396px;
 }
 
 @media screen and (max-width: 768px) {
-  .section_pages_all {
+  .container_pages_all {
     width: calc(100% - 60px);
   }
 }
 
 @media screen and (max-width: 575px) {
-  .section_pages_all {
+  .container_pages_all {
     width: calc(100% - 28px);
   }
 
-  .section_pages_auth {
+  .container_pages_auth {
     width: 81%;
   }
 }
