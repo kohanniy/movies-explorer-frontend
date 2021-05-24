@@ -15,7 +15,7 @@ export const moviesLinks = [
     link: '/movies',
   },
   {
-    text: 'Сохраненный фильмы',
+    text: 'Сохраненные фильмы',
     link: '/saved-movies',
   },
 ];
@@ -23,4 +23,9 @@ export const moviesLinks = [
 export const profileLink = {
   text: 'Аккаунт',
   link: '/profile',
+}
+
+export const homePageLink = {
+  text: 'Главная',
+  link: '/'
 }

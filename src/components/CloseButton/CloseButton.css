@@ -1,0 +1,27 @@
+.close-button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  position: relative;
+}
+
+.close-button__x {
+  position: absolute;
+  top: calc(50% - 1.5px);
+  left: calc(50% - 11px);
+  display: block;
+  width: 22px;
+  background-color: #000;
+  height: 3px;
+}
+
+.close-button__x:first-of-type {
+  transform: rotate(45deg);
+}
+
+.close-button__x:last-of-type {
+  transform: rotate(-45deg);
+}

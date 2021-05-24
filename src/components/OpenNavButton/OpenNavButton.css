@@ -1,0 +1,27 @@
+.open-button {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.open-button::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: #000;
+  position: absolute;
+  top: calc(50% - 1.5px);
+  left: calc(50% - 14px);
+  box-shadow: 0 -9px 0 #000, 0 9px 0 #000;
+}
+
+.open-button_is-home::before {
+  background: #fff;
+  box-shadow: 0 -9px 0 #fff, 0 9px 0 #fff;
+}
