@@ -29,3 +29,18 @@ export const homePageLink = {
   text: 'Главная',
   link: '/'
 }
+
+export const navTabData = [
+  {
+    text: 'О проекте',
+    hash: 'about-project',
+  },
+  {
+    text: 'Технологии',
+    hash: 'technologies',
+  },
+  {
+    text: 'Студент',
+    hash: 'student',
+  },
+];
