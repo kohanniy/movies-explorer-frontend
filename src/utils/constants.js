@@ -67,4 +67,14 @@ export const aboutProjectSchedule = [
     name: 'Front-end',
     modifier: 'frontend',
   },
-]
+];
+
+export const techs = [
+  'HTML',
+  'CSS',
+  'JS',
+  'React',
+  'Git',
+  'Express.js',
+  'mongoDB'
+];

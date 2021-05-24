@@ -4,7 +4,7 @@
   font-family: var(--font-family);
 }
 
-.about-project__section {
+.about-project__container {
   display: flex;
   flex-direction: column;
 }
@@ -92,7 +92,7 @@
     padding: 90px 0;
   }
 
-  .about-project__section {
+  .about-project__container {
     padding-right: 20px;
     padding-left: 20px;
   }
@@ -120,7 +120,7 @@
     padding: 70px 0;
   }
 
-  .about-project__section {
+  .about-project__container {
     padding-right: 4px;
     padding-left: 4px;
   }

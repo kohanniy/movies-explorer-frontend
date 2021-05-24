@@ -1,13 +1,13 @@
 import { HashLink } from 'react-router-hash-link';
 import './NavTab.css';
-import Section from '../Section/Section';
+import Container from '../Container/Container';
 import { navTabData } from '../../utils/constants';
 
 const NavTab = () => {
   return (
     <section className='nav-tab'>
-      <Section
-        additionalClass='nav-tab__section'
+      <Container
+        additionalClass='nav-tab__container'
       >
         <ul className='nav-tab__list'>
         {
@@ -20,7 +20,7 @@ const NavTab = () => {
           ))
         }
         </ul>
-      </Section>
+      </Container>
     </section>
   );
 };

@@ -1,14 +1,14 @@
 import React from 'react';
 import './AboutProject.css';
-import Section from '../Section/Section';
+import Container from '../Container/Container';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import { navTabData, aboutProjectDescription, aboutProjectSchedule } from '../../utils/constants';
 
 const AboutProject = () => {
   return (
     <section id={navTabData[0].hash} className='about-project'>
-      <Section
-        additionalClass='about-project__section'
+      <Container
+        additionalClass='about-project__container'
       >
         <SectionTitle>
           {navTabData[0].text}
@@ -41,7 +41,7 @@ const AboutProject = () => {
             ))
           }
         </dl>
-      </Section>
+      </Container>
     </section>
   );
 };
