@@ -1,6 +1,10 @@
+import HeroBlock from '../../HeroBlock/HeroBlock';
+
 const MainPage = () => {
   return (
-    <h1>MainPage</h1>
+    <>
+      <HeroBlock />
+    </>
   );
 }
 

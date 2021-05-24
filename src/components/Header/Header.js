@@ -44,7 +44,7 @@ const Header = (props) => {
         additionalClass={headerSectionClasses}
       >
         <Logo className='header__logo' />
-        {windowWidth <= 768
+        {windowWidth <= 768 && loggedIn
           ? <OpenNavButton
               isHomePage={isHomePage}
               handleOpenNavButtonClick={handleOpenNavButtonClick}

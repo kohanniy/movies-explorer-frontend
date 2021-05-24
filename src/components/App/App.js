@@ -14,7 +14,7 @@ import { moviesLinks, homePageLink } from '../../utils/constants';
 function App() {
   const [ isHomePage, setIsHomePage ] = React.useState();
   const [ isAuthPage, setIsAuthPage ] = React.useState();
-  const [ loggedIn, setLoggedIn ] = React.useState(true);
+  const [ loggedIn, setLoggedIn ] = React.useState(false);
   const [ applicationLinks, setApplicationLinks ] = React.useState(moviesLinks);
   const [ navOpened, setNavOpened ] = React.useState(false);
 
@@ -57,26 +57,28 @@ function App() {
         handleCloseNavButtonClick={handleCloseNavButtonClick}
         navOpened={navOpened}
       />
-      <Switch>
-        <Route exact path="/">
-          <MainPage />
-        </Route>
-        <Route path="/movies">
-          <MoviesPage />
-        </Route>
-        <Route path="/saved-movies">
-          <SavedMoviesPage />
-        </Route>
-        <Route path="/profile">
-          <ProfilePage />
-        </Route>
-        <Route path="/signin">
-          <LoginPage />
-        </Route>
-        <Route path="/signup">
-          <RegisterPage />
-        </Route>
-      </Switch>
+      <main className='page__main-content'>
+        <Switch>
+          <Route exact path="/">
+            <MainPage />
+          </Route>
+          <Route path="/movies">
+            <MoviesPage />
+          </Route>
+          <Route path="/saved-movies">
+            <SavedMoviesPage />
+          </Route>
+          <Route path="/profile">
+            <ProfilePage />
+          </Route>
+          <Route path="/signin">
+            <LoginPage />
+          </Route>
+          <Route path="/signup">
+            <RegisterPage />
+          </Route>
+        </Switch>
+      </main>
     </>
   );
 }
