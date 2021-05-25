@@ -89,3 +89,18 @@ export const socialLinks = [
     link: 'https://github.com/kohanniy'
   },
 ];
+
+export const portfolioData = [
+  {
+    name: 'Статичный сайт',
+    link: 'https://kohanniy.github.io/how-to-learn'
+  },
+  {
+    name: 'Адаптивный сайт',
+    link: 'https://kohanniy.github.io/russian-travel'
+  },
+  {
+    name: 'Одностраничное приложение',
+    link: 'https://mesto.kohanniy.nomoredomains.club/'
+  },
+];
