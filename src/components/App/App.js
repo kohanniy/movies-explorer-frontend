@@ -57,28 +57,26 @@ function App() {
         handleCloseNavButtonClick={handleCloseNavButtonClick}
         navOpened={navOpened}
       />
-      <main className='page__main-content'>
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route path="/movies">
-            <MoviesPage />
-          </Route>
-          <Route path="/saved-movies">
-            <SavedMoviesPage />
-          </Route>
-          <Route path="/profile">
-            <ProfilePage />
-          </Route>
-          <Route path="/signin">
-            <LoginPage />
-          </Route>
-          <Route path="/signup">
-            <RegisterPage />
-          </Route>
-        </Switch>
-      </main>
+      <Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route path="/movies">
+          <MoviesPage />
+        </Route>
+        <Route path="/saved-movies">
+          <SavedMoviesPage />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage />
+        </Route>
+        <Route path="/signin">
+          <LoginPage />
+        </Route>
+        <Route path="/signup">
+          <RegisterPage />
+        </Route>
+      </Switch>
     </>
   );
 }

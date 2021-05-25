@@ -1,6 +1,6 @@
 .portfolio {
   font-family: var(--font-family);
-  padding-top: 100px;
+  padding: 100px 0 105px;
 }
 
 .portfolio__title {
@@ -54,7 +54,7 @@
 
 @media screen and (max-width: 768px) {
   .portfolio {
-    padding-top: 91px;
+    padding: 91px 0 70px;
   }
 
   .portfolio__container {
@@ -70,7 +70,7 @@
 
 @media screen and (max-width: 575px) {
   .portfolio {
-    padding-top: 69px;
+    padding: 69px 0 50px;
   }
 
   .portfolio__container {
