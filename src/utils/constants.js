@@ -104,3 +104,8 @@ export const portfolioData = [
     link: 'https://mesto.kohanniy.nomoredomains.club/'
   },
 ];
+
+export const practicumLink = {
+  network: 'Яндекс.Практикум',
+  link: 'https://praktikum.yandex.ru/web/'
+}
