@@ -78,3 +78,14 @@ export const techs = [
   'Express.js',
   'mongoDB'
 ];
+
+export const socialLinks = [
+  {
+    network: 'Telegram',
+    link: 'https://t.me/kohanniy'
+  },
+  {
+    network: 'Github',
+    link: 'https://github.com/kohanniy'
+  },
+];
