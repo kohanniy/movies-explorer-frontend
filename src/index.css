@@ -12,6 +12,7 @@
   --font-family: 'Inter', Arial, sans-serif;
   --primary-color: #2be080;
   --background-mainPage: #073042;
+  --button-background: #3456f3;
 }
 
 html {
@@ -77,7 +78,6 @@ input[type="search"]::-webkit-search-results-decoration {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   margin: 0;
-
   appearance: none;
 }
 
