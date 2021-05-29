@@ -23,9 +23,13 @@ const MoviesCardList = ({ savedMoviesPage }) => {
             )
           }
         </ul>
-        <MoreButton
-          additionalClass='cards__more-button'
-        />
+        {
+          savedMoviesPage
+            ? null
+            : <MoreButton
+                additionalClass='cards__more-button'
+              />
+        }
       </Container>
     </section>
   );
