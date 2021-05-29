@@ -1,6 +1,7 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Container from '../Container/Container';
+import MoreButton from '../MoreButton/MoreButton';
 import { moviesCardData } from '../../utils/constants';
 
 const MoviesCardList = ({ savedMoviesPage }) => {
@@ -22,6 +23,9 @@ const MoviesCardList = ({ savedMoviesPage }) => {
             )
           }
         </ul>
+        <MoreButton
+          additionalClass='cards__more-button'
+        />
       </Container>
     </section>
   );
