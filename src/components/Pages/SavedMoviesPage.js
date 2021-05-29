@@ -1,7 +1,7 @@
-import PageMainContent from '../../PageMainContent/PageMainContent';
-import SearchForm from '../../SearchForm/SearchForm';
-import MoviesCardList from '../../MoviesCardList/MoviesCardList';
-import Footer from '../../Footer/Footer';
+import PageMainContent from '../PageMainContent/PageMainContent';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Footer from '../Footer/Footer';
 
 const SavedMoviesPage = () => {
   return (

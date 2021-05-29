@@ -1,16 +1,15 @@
 import React from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
-import './App.css';
 import Header from '../Header/Header';
-import LoginPage from '../Pages/LoginPage/LoginPage';
-import MainPage from '../Pages/MainPage/MainPage';
-import MoviesPage from '../Pages/MoviesPage/MoviesPage';
-import ProfilePage from '../Pages/ProfilePage/ProfilePage';
-import RegisterPage from '../Pages/RegisterPage/RegisterPage';
-import SavedMoviesPage from '../Pages/SavedMoviesPage/SavedMoviesPage';
+import LoginPage from '../Pages/LoginPage';
+import MainPage from '../Pages/MainPage';
+import MoviesPage from '../Pages/MoviesPage';
+import ProfilePage from '../Pages/ProfilePage';
+import RegisterPage from '../Pages/RegisterPage';
+import SavedMoviesPage from '../Pages/SavedMoviesPage';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import { moviesLinks, homePageLink } from '../../utils/constants';
-import NotFoundPage from '../Pages/NotFoundPage/NotFoundPage';
+import NotFoundPage from '../Pages/NotFoundPage';
 
 function App() {
   const [ isHomePage, setIsHomePage ] = React.useState();
@@ -46,44 +45,45 @@ function App() {
       : setIsAuthPage(false);
   }, [location.pathname]);
 
+  const header = (<Header
+                  isHomePage={isHomePage}
+                  isAuthPage={isAuthPage}
+                  windowWidth={windowWidth}
+                  loggedIn={loggedIn}
+                  applicationLinks={applicationLinks}
+                  handleOpenNavButtonClick={handleOpenNavButtonClick}
+                  handleCloseNavButtonClick={handleCloseNavButtonClick}
+                  navOpened={navOpened}
+                />);
+
   return (
-    <>
-      <Switch>
-        <Route exact path='/'>
-          <Header
-            isHomePage={isHomePage}
-            isAuthPage={isAuthPage}
-            windowWidth={windowWidth}
-            loggedIn={loggedIn}
-            applicationLinks={applicationLinks}
-            handleOpenNavButtonClick={handleOpenNavButtonClick}
-            handleCloseNavButtonClick={handleCloseNavButtonClick}
-            navOpened={navOpened}
-          />
-          <Route path='/'>
-            <MainPage />
-          </Route>
-          <Route path='/movies'>
-            <MoviesPage />
-          </Route>
-          <Route path='/saved-movies'>
-            <SavedMoviesPage />
-          </Route>
-          <Route path='/profile'>
-            <ProfilePage />
-          </Route>
-          <Route path='/signin'>
-            <LoginPage />
-          </Route>
-          <Route path='/signup'>
-            <RegisterPage />
-          </Route>
-        </Route>
-        <Route path='*'>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </>
+    <Switch>
+      <Route exact path='/'>
+        {header}
+        <MainPage />
+      </Route>
+      <Route path='/movies'>
+        {header}
+        <MoviesPage />
+      </Route>
+      <Route path='/saved-movies'>
+        {header}
+        <SavedMoviesPage />
+      </Route>
+      <Route path='/profile'>
+        {header}
+        <ProfilePage />
+      </Route>
+      <Route path='/signin'>
+        {header}
+        <LoginPage />
+      </Route>
+      <Route path='/signup'>
+        {header}
+        <RegisterPage />
+      </Route>
+      <Route path='*' component={NotFoundPage} />
+    </Switch>
   );
 }
 
