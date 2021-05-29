@@ -10,6 +10,7 @@ import RegisterPage from '../Pages/RegisterPage/RegisterPage';
 import SavedMoviesPage from '../Pages/SavedMoviesPage/SavedMoviesPage';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import { moviesLinks, homePageLink } from '../../utils/constants';
+import NotFoundPage from '../Pages/NotFoundPage/NotFoundPage';
 
 function App() {
   const [ isHomePage, setIsHomePage ] = React.useState();
@@ -47,34 +48,39 @@ function App() {
 
   return (
     <>
-      <Header
-        isHomePage={isHomePage}
-        isAuthPage={isAuthPage}
-        windowWidth={windowWidth}
-        loggedIn={loggedIn}
-        applicationLinks={applicationLinks}
-        handleOpenNavButtonClick={handleOpenNavButtonClick}
-        handleCloseNavButtonClick={handleCloseNavButtonClick}
-        navOpened={navOpened}
-      />
       <Switch>
-        <Route exact path="/">
-          <MainPage />
+        <Route exact path='/'>
+          <Header
+            isHomePage={isHomePage}
+            isAuthPage={isAuthPage}
+            windowWidth={windowWidth}
+            loggedIn={loggedIn}
+            applicationLinks={applicationLinks}
+            handleOpenNavButtonClick={handleOpenNavButtonClick}
+            handleCloseNavButtonClick={handleCloseNavButtonClick}
+            navOpened={navOpened}
+          />
+          <Route path='/'>
+            <MainPage />
+          </Route>
+          <Route path='/movies'>
+            <MoviesPage />
+          </Route>
+          <Route path='/saved-movies'>
+            <SavedMoviesPage />
+          </Route>
+          <Route path='/profile'>
+            <ProfilePage />
+          </Route>
+          <Route path='/signin'>
+            <LoginPage />
+          </Route>
+          <Route path='/signup'>
+            <RegisterPage />
+          </Route>
         </Route>
-        <Route path="/movies">
-          <MoviesPage />
-        </Route>
-        <Route path="/saved-movies">
-          <SavedMoviesPage />
-        </Route>
-        <Route path="/profile">
-          <ProfilePage />
-        </Route>
-        <Route path="/signin">
-          <LoginPage />
-        </Route>
-        <Route path="/signup">
-          <RegisterPage />
+        <Route path='*'>
+          <NotFoundPage />
         </Route>
       </Switch>
     </>
