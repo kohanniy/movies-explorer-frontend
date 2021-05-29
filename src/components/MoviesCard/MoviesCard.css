@@ -1,0 +1,114 @@
+.movie-card {
+  font-family: var(--font-family);
+  background: #fdfdfd;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.movie-card__image-container {
+  margin: 0;
+  position: relative;
+}
+
+.movie-card__image-container::before {
+  content: '';
+  display: block;
+  width: 100%;
+  padding-top: 56%;
+}
+
+.movie-card__image {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.movie-card__info {
+  padding: 14px 12px;
+  display: grid;
+  grid-template-columns: 1fr 16px;
+  gap: 10px;
+  height: 100%;
+  grid-template-areas:
+    'name btn'
+    'duration .';
+}
+
+.movie-card__title {
+  grid-area: name;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.23;
+  color: #000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.movie-card__duration {
+  grid-area: duration;
+  align-self: end;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.18;
+  color: #a0a0a0;
+}
+
+.movie-card__button {
+  grid-area: btn;
+  justify-self: end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.movie-card__button:hover {
+  opacity: 0.7;
+}
+
+.movie-card__button_type_save {
+  border: 2px solid #fff;
+  border-radius: 50px;
+  background: #f9f9f9;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.09);
+}
+
+.movie-card__button_type_delete {
+  position: relative;
+  border: none;
+  /* outline: none; */
+  background: transparent;
+}
+
+.movie-card__button_type_delete::before,
+.movie-card__button_type_delete::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(50% - 4px);
+  display: block;
+  width: 8px;
+  height: 2px;
+  background: #000;
+}
+
+.movie-card__button_type_delete::before {
+  transform: rotate(45deg);
+}
+
+.movie-card__button_type_delete::after {
+  transform: rotate(-45deg);
+}
+
+.movie-card__button_type_save-active {
+  background: var(--primary-color);
+}
+

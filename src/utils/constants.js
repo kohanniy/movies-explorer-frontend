@@ -1,3 +1,5 @@
+import movieImage from '../images/movie-img.jpg';
+
 export const userLinks = [
   {
     text: 'Регистрация',
@@ -109,3 +111,46 @@ export const practicumLink = {
   network: 'Яндекс.Практикум',
   link: 'https://praktikum.yandex.ru/web/'
 }
+
+export const moviesCardData = [
+  {
+    name: '33 слова о дизайне sdgsdfgfgsdfgtsrgtyb regrgetetrttetgr',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне sgfdgsdfgdsfgdfsgbhbyt5 54tyb34t5vg345',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+  {
+    name: '33 слова о дизайне',
+    src: movieImage,
+    duration: '1ч42мин'
+  },
+]
