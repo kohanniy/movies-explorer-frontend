@@ -153,4 +153,34 @@ export const moviesCardData = [
     src: movieImage,
     duration: '1ч42мин'
   },
-]
+];
+
+export const inputsData = {
+  editPrifileInputs: [
+    {
+      type: 'text',
+      name: 'name',
+      minLength: '2',
+      maxLength: '30'
+    }
+  ]
+};
+
+export const editProfileInputsData = [
+  {
+    labelText: 'Имя',
+    inputType: 'text',
+    inputName: 'name',
+    minLength: 2,
+    maxLength: 30,
+    defaultValue: 'Виталий'
+  },
+  {
+    labelText: 'E-mail',
+    inputType: 'email',
+    inputName: 'email',
+    minLength: null,
+    maxLength: null,
+    defaultValue: 'gsdgsfgfg@mail.ru'
+  },
+];

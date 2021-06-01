@@ -1,6 +1,11 @@
+import ProfileSection from '../ProfileSection/ProfileSection';
+import PageMainContent from '../PageMainContent/PageMainContent';
+
 const ProfilePage = () => {
   return (
-    <h1>ProfilePage</h1>
+    <PageMainContent>
+      <ProfileSection />
+    </PageMainContent>
   );
 }
 

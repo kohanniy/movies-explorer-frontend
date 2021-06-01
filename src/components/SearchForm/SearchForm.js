@@ -7,7 +7,7 @@ const SearchForm = () => {
       <Container
         additionalClass='search__container'
       >
-        <form className='search__form' role='search'>
+        <form className='search__form' role='search' name='search'>
           <input
             className='search__input'
             aria-label='поиск фильмов'

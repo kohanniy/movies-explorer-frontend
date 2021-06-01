@@ -1,0 +1,9 @@
+.input-error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #ff3055;
+  display: flex;
+  min-height: 16px;
+  align-items: center;
+}

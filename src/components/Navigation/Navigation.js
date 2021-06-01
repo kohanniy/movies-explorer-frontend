@@ -1,4 +1,3 @@
-import './Navigation.css';
 import UserNavigation from '../UserNavigation/UserNavigation';
 import ApplicationNavigation from '../ApplicationNavigation/ApplicationNavigation';
 
