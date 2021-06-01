@@ -84,6 +84,7 @@
   .app-nav__opened {
     opacity: 1;
     visibility: visible;
+    transition: all 0.5s ease;
   }
 
   .app-nav__wrapper {
@@ -92,7 +93,14 @@
     width: 100%;
     max-width: 520px;
     padding: 23px 23px 90px;
+    transform: translateX(100%);
+    transition: transform 0.5s ease;
   }
+
+   .app-nav__opened .app-nav__wrapper {
+     transform: translateX(0);
+     transition: transform 0.5s ease;
+   }
 
   .app-nav__close-button {
     margin-bottom: 106px;

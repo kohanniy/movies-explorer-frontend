@@ -82,7 +82,7 @@ function App() {
         {header}
         <RegisterPage />
       </Route>
-      <Route path='*' component={NotFoundPage} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 }
