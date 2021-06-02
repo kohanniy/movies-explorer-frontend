@@ -9,6 +9,7 @@ const FormLabel = (props) => {
     inputDir,
     inputType,
     inputName,
+    placeholder,
     inputClassName,
     minLength,
     maxLength,
@@ -31,6 +32,7 @@ const FormLabel = (props) => {
         minLength={minLength}
         maxLength={maxLength}
         defaultValue={defaultValue}
+        placeholder={placeholder}
       />
       <InputError
         inputName={inputName}

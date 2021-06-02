@@ -14,7 +14,7 @@ import NotFoundPage from '../Pages/NotFoundPage';
 function App() {
   const [ isHomePage, setIsHomePage ] = React.useState();
   const [ isAuthPage, setIsAuthPage ] = React.useState();
-  const [ loggedIn, setLoggedIn ] = React.useState(false);
+  const [ loggedIn, setLoggedIn ] = React.useState(true);
   const [ applicationLinks, setApplicationLinks ] = React.useState(moviesLinks);
   const [ navOpened, setNavOpened ] = React.useState(false);
 

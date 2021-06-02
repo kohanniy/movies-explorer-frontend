@@ -39,6 +39,7 @@ const AuthSection = (props) => {
                 minLength={item.minLength}
                 maxLength={item.maxLength}
                 defaultValue={item.defaultValue}
+                placeholder={item.placeholder}
               />
             ))
           }

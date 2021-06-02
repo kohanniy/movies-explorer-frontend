@@ -53,6 +53,10 @@
   padding-inline-end: 50px;
 }
 
+.profile__input:focus {
+  border-bottom: 1px solid #3456f3;
+}
+
 .profile__button {
   background: transparent;
   font-size: 13px;

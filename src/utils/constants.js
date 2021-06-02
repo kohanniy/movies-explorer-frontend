@@ -171,6 +171,7 @@ export const editProfileInputsData = [
     labelText: 'Имя',
     inputType: 'text',
     inputName: 'name',
+    placeholder: 'Введите свое имя',
     minLength: 2,
     maxLength: 30,
     defaultValue: 'Виталий'
@@ -179,6 +180,7 @@ export const editProfileInputsData = [
     labelText: 'E-mail',
     inputType: 'email',
     inputName: 'email',
+    placeholder: 'Введите новую почту',
     minLength: null,
     maxLength: null,
     defaultValue: 'gsdgsfgfg@mail.ru'
@@ -190,6 +192,7 @@ export const loginInputsData = [
     labelText:'E-mail',
     inputType:'email',
     inputName:'email',
+    placeholder: 'Введите свой email-адрес',
     minLength: null,
     maxLength: null,
     defaultValue: 'gsdgsfgfg@mail.ru'
@@ -198,6 +201,7 @@ export const loginInputsData = [
     labelText:'Пароль',
     inputType:'password',
     inputName:'password',
+    placeholder: 'Введите пароль',
     minLength: 8,
     maxLength: null,
     defaultValue: null
@@ -208,6 +212,7 @@ export const additionalInputDataForRegistration = {
     labelText:'Имя',
     inputType:'text',
     inputName:'name',
+    placeholder: 'Введите свое имя',
     minLength: 2,
     maxLength: 30,
     defaultValue: 'Виталий'
