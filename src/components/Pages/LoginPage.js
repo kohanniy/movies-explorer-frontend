@@ -1,6 +1,16 @@
-const LoginPage = () => {
+import PageMainContent from '../PageMainContent/PageMainContent';
+import AuthSection from '../AuthSection/AuthSection';
+import { loginInputsData, loginSectionData } from '../../utils/constants';
+
+const LoginPage = ({ isAuthPage }) => {
   return (
-    <h1>LoginPage</h1>
+    <PageMainContent>
+      <AuthSection
+        isAuthPage={isAuthPage}
+        inputsData={loginInputsData}
+        sectionData={loginSectionData}
+      />
+    </PageMainContent>
   );
 }
 

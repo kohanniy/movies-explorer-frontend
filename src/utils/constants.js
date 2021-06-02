@@ -184,3 +184,45 @@ export const editProfileInputsData = [
     defaultValue: 'gsdgsfgfg@mail.ru'
   },
 ];
+
+export const loginInputsData = [
+  {
+    labelText:'E-mail',
+    inputType:'email',
+    inputName:'email',
+    minLength: null,
+    maxLength: null,
+    defaultValue: 'gsdgsfgfg@mail.ru'
+  },
+  {
+    labelText:'Пароль',
+    inputType:'password',
+    inputName:'password',
+    minLength: 8,
+    maxLength: null,
+    defaultValue: null
+  },
+];
+
+export const additionalInputDataForRegistration = {
+    labelText:'Имя',
+    inputType:'text',
+    inputName:'name',
+    minLength: 2,
+    maxLength: 30,
+    defaultValue: 'Виталий'
+}
+
+export const loginSectionData = {
+  buttonText: 'Войти',
+  text: 'Ещё не зарегистрированы?',
+  linkText: 'Регистрация',
+  link: '/signup'
+}
+
+export const registerSectionData = {
+  buttonText: 'Зарегистрироваться',
+  text: 'Уже зарегистрированы?',
+  linkText: 'Войти',
+  link: '/signin'
+}

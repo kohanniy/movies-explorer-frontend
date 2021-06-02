@@ -14,7 +14,7 @@ import NotFoundPage from '../Pages/NotFoundPage';
 function App() {
   const [ isHomePage, setIsHomePage ] = React.useState();
   const [ isAuthPage, setIsAuthPage ] = React.useState();
-  const [ loggedIn, setLoggedIn ] = React.useState(true);
+  const [ loggedIn, setLoggedIn ] = React.useState(false);
   const [ applicationLinks, setApplicationLinks ] = React.useState(moviesLinks);
   const [ navOpened, setNavOpened ] = React.useState(false);
 
@@ -76,11 +76,15 @@ function App() {
       </Route>
       <Route path='/signin'>
         {header}
-        <LoginPage />
+        <LoginPage
+          isAuthPage={isAuthPage}
+        />
       </Route>
       <Route path='/signup'>
         {header}
-        <RegisterPage />
+        <RegisterPage
+          isAuthPage={isAuthPage}
+        />
       </Route>
       <Route component={NotFoundPage} />
     </Switch>
