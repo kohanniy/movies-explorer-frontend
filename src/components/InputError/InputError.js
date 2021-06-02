@@ -6,7 +6,7 @@ const InputError = ({ inputName, children }) => {
       id={`${inputName}-error`}
       className='input-error'
     >
-      {children}
+      Ошибка
     </span>
   );
 };
