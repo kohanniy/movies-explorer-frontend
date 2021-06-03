@@ -14,6 +14,7 @@ const SearchForm = () => {
             type='search'
             autoComplete='off'
             placeholder='Фильм'
+            required
           />
           <label htmlFor='short-films' className='search__label'>
             <input
