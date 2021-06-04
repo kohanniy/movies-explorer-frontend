@@ -22,7 +22,7 @@ class MainApi {
     .then(this._parseResponseFromServer)
   };
 
-  authorize(email, password) {
+  login(email, password) {
     return fetch(`${this._url}/signin`, {
       method: 'POST',
       headers: {

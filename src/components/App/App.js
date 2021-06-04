@@ -12,6 +12,7 @@ import { moviesLinks, homePageLink } from '../../utils/constants';
 import NotFoundPage from '../Pages/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
+import { setToken, getToken, removeToken } from '../../utils/utils';
 
 const App = () => {
   const [ isHomePage, setIsHomePage ] = React.useState();
@@ -21,6 +22,7 @@ const App = () => {
   const [ navOpened, setNavOpened ] = React.useState(false);
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
+  const [ userEmail, setUserEmail ] = React.useState('');
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -48,6 +50,32 @@ const App = () => {
           setServerErrorMsg('Неправильно заполнено одно из полей.');
         } else if (err.status === 409) {
           setServerErrorMsg('Пользователь с таким email уже зарегистрирован.');
+        } else {
+          setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  };
+
+  const handleLoginFormSubmit = (values) => {
+    const { email, password } = values;
+    setIsLoading(true);
+    mainApi.login(email, password)
+      .then((data) => {
+        if (data) {
+          setToken(data.token);
+          setLoggedIn(true);
+          setUserEmail(email);
+          history.push('/movies');
+        }
+      })
+      .catch((err) => {
+        if (err.status === 401) {
+          setServerErrorMsg('Вы ввели неверный email или пароль! Попробуйте еще раз');
+        } else if (err.status === 400) {
+            setServerErrorMsg('Не передано одно из полей');
         } else {
           setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
         }
@@ -112,6 +140,9 @@ const App = () => {
         {header}
         <LoginPage
           isAuthPage={isAuthPage}
+          onLoginFormSubmit={handleLoginFormSubmit}
+          isLoading={isLoading}
+          serverErrorMsg={serverErrorMsg}
         />
       </Route>
       <Route path='/signup'>
