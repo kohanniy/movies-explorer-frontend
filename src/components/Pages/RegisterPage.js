@@ -4,13 +4,23 @@ import { loginInputsData, additionalInputDataForRegistration, registerSectionDat
 
 const registerInputsData = [additionalInputDataForRegistration, ...loginInputsData];
 
-const RegisterPage = ({ isAuthPage }) => {
+const RegisterPage = (props) => {
+  const {
+    isAuthPage,
+    onRegisterFormSubmit,
+    isLoading,
+    serverErrorMsg,
+  } = props;
+
   return (
     <PageMainContent>
       <AuthSection
         isAuthPage={isAuthPage}
         inputsData={registerInputsData}
         sectionData={registerSectionData}
+        isLoading={isLoading}
+        onFormSubmit={onRegisterFormSubmit}
+        serverErrorMsg={serverErrorMsg}
       />
     </PageMainContent>
   );

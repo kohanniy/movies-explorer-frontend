@@ -1,5 +1,5 @@
 import React from 'react';
-// import useDebounce from './useDebounce';
+import useDebounce from './useDebounce';
 
 const useWindowWidth = () => {
   const getWindowWidth = () => {
@@ -9,15 +9,16 @@ const useWindowWidth = () => {
 
   const [windowWidth, setWindowWidth] = React.useState(getWindowWidth());
 
-  // const debounceHandleResize = useDebounce(handleResize, 200);
+  const handleResize = () => {
+    setWindowWidth(getWindowWidth());
+  }
+
+  const debounceHandleResize = useDebounce(handleResize, 300);
 
   React.useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(getWindowWidth());
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('resize', debounceHandleResize);
+    return () => window.removeEventListener('resize', debounceHandleResize);
+  }, [debounceHandleResize]);
 
   return windowWidth;
 }

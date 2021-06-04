@@ -33,7 +33,6 @@ const ProfileSection = () => {
                 inputClassName='profile__input'
                 minLength={item.minLength}
                 maxLength={item.maxLength}
-                defaultValue={item.defaultValue}
                 placeholder={item.placeholder}
               />
             ))

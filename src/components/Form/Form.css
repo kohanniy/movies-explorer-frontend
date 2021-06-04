@@ -4,6 +4,16 @@
   align-items: center;
 }
 
+.form__server-err {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 500;
+  text-align: center;
+  color: #ff3055;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .form__submit {
   border: none;
   outline: none;

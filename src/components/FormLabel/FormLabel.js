@@ -1,5 +1,6 @@
 import './FormLabel.css';
 import InputError from '../InputError/InputError';
+import { regExpForCheckInputName } from '../../utils/constants';
 
 const FormLabel = (props) => {
   const {
@@ -13,7 +14,9 @@ const FormLabel = (props) => {
     inputClassName,
     minLength,
     maxLength,
-    defaultValue,
+    errors,
+    handleChange,
+    values
   } = props;
 
   return (
@@ -27,15 +30,19 @@ const FormLabel = (props) => {
         name={inputName}
         id={inputName}
         required
-        autoComplete='off'
+        autoComplete='on'
         className={inputClassName}
         minLength={minLength}
         maxLength={maxLength}
-        defaultValue={defaultValue}
         placeholder={placeholder}
+        onChange={handleChange}
+        value={values[inputName] || ''}
+        pattern={inputName === 'name' ? regExpForCheckInputName : null}
+        title={inputName === 'name' ? 'Имя должно содержать только латиницу, кириллицу, дефисы и пробелы' : null}
       />
       <InputError
         inputName={inputName}
+        errors={errors}
       />
     </label>
   );

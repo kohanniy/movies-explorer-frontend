@@ -155,17 +155,6 @@ export const moviesCardData = [
   },
 ];
 
-export const inputsData = {
-  editPrifileInputs: [
-    {
-      type: 'text',
-      name: 'name',
-      minLength: '2',
-      maxLength: '30'
-    }
-  ]
-};
-
 export const editProfileInputsData = [
   {
     labelText: 'Имя',
@@ -219,6 +208,7 @@ export const additionalInputDataForRegistration = {
 }
 
 export const loginSectionData = {
+  title: 'Рады видеть!',
   buttonText: 'Войти',
   text: 'Ещё не зарегистрированы?',
   linkText: 'Регистрация',
@@ -226,8 +216,11 @@ export const loginSectionData = {
 }
 
 export const registerSectionData = {
+  title: 'Добро пожаловать!',
   buttonText: 'Зарегистрироваться',
   text: 'Уже зарегистрированы?',
   linkText: 'Войти',
   link: '/signin'
-}
+};
+
+export const regExpForCheckInputName = '^[А-Яа-яa-zA-ZЁё\\-\\s]+$';
