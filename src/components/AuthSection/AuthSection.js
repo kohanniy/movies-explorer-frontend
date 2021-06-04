@@ -1,13 +1,26 @@
+import React from 'react';
 import { Link } from 'react-router-dom'
 import './AuthSection.css';
 import Title from '../Title/Title';
 import Container from '../Container/Container';
 import Form from '../Form/Form';
 import FormLabel from '../FormLabel/FormLabel';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 
 const AuthSection = (props) => {
-  const { isAuthPage, inputsData, sectionData } = props
+  const { isAuthPage, inputsData, sectionData, isLoading, onFormSubmit, serverErrorMsg } = props;
+
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
+
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onFormSubmit(values);
+  }
 
   return (
     <section className='auth'>
@@ -18,13 +31,16 @@ const AuthSection = (props) => {
         <Title
           titleClassName='auth__title'
         >
-          Рады видеть!
+          {sectionData.title}
         </Title>
         <Form
           name='login'
           formClassName='auth__form'
           buttonClassName='auth__submit'
-          buttonText={sectionData.buttonText}
+          onSubmit={handleSubmit}
+          isDisabled={!isValid}
+          buttonText={isLoading ? 'Данные отправляются...' : sectionData.buttonText}
+          serverErrorMsg={serverErrorMsg}
         >
           {
             inputsData.map((item, index) => (
@@ -38,8 +54,10 @@ const AuthSection = (props) => {
                 inputClassName='auth__input'
                 minLength={item.minLength}
                 maxLength={item.maxLength}
-                defaultValue={item.defaultValue}
                 placeholder={item.placeholder}
+                handleChange={handleChange}
+                values={values}
+                errors={errors}
               />
             ))
           }

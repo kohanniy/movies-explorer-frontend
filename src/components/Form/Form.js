@@ -7,18 +7,30 @@ const Form = (props) => {
     buttonClassName,
     buttonText,
     children,
+    onSubmit,
+    isDisabled,
+    serverErrorMsg
   } = props;
+
+  let buttonClasses = `form__submit ${buttonClassName}`;
+
+  if (isDisabled) buttonClasses += ' form__submit_disabled';
 
   return (
     <form
+      onSubmit={onSubmit}
       className={`form ${formClassName}`}
       name={name}
       noValidate
     >
       {children}
+      <p className='form__server-err'>
+        {serverErrorMsg}
+      </p>
       <button
         type='submit'
-        className={`form__submit ${buttonClassName}`}
+        className={buttonClasses}
+        disabled={isDisabled}
       >
         {buttonText}
       </button>

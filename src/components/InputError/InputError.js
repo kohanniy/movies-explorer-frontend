@@ -1,12 +1,12 @@
 import './InputError.css';
 
-const InputError = ({ inputName, children }) => {
+const InputError = ({ inputName, errors }) => {
   return (
     <span
       id={`${inputName}-error`}
       className='input-error'
     >
-      Ошибка
+      {errors[inputName] || ''}
     </span>
   );
 };

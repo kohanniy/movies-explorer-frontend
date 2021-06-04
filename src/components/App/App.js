@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation, Redirect, useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 import LoginPage from '../Pages/LoginPage';
 import MainPage from '../Pages/MainPage';
@@ -10,16 +10,21 @@ import SavedMoviesPage from '../Pages/SavedMoviesPage';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import { moviesLinks, homePageLink } from '../../utils/constants';
 import NotFoundPage from '../Pages/NotFoundPage';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import mainApi from '../../utils/MainApi';
 
-function App() {
+const App = () => {
   const [ isHomePage, setIsHomePage ] = React.useState();
   const [ isAuthPage, setIsAuthPage ] = React.useState();
-  const [ loggedIn, setLoggedIn ] = React.useState(true);
+  const [ loggedIn, setLoggedIn ] = React.useState(false);
   const [ applicationLinks, setApplicationLinks ] = React.useState(moviesLinks);
   const [ navOpened, setNavOpened ] = React.useState(false);
+  const [ isLoading, setIsLoading ] = React.useState(false);
+  const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
+  const history = useHistory();
 
   const handleOpenNavButtonClick = () => {
     setNavOpened(true);
@@ -27,6 +32,29 @@ function App() {
 
   const handleCloseNavButtonClick = () => {
     setNavOpened(false);
+  }
+
+  const handleRegisterFormSubmit = (values) => {
+    const { email, password, name } = values;
+    setIsLoading(!isLoading);
+    mainApi.register(email, password, name)
+      .then((data) => {
+        console.log(data);
+        setLoggedIn(true);
+        history.push('/movies');
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          setServerErrorMsg('Неправильно заполнено одно из полей.');
+        } else if (err.status === 409) {
+          setServerErrorMsg('Пользователь с таким email уже зарегистрирован.');
+        } else {
+          setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
   }
 
   React.useEffect(() => {
@@ -62,18 +90,24 @@ function App() {
         {header}
         <MainPage />
       </Route>
-      <Route path='/movies'>
-        {header}
-        <MoviesPage />
-      </Route>
-      <Route path='/saved-movies'>
-        {header}
-        <SavedMoviesPage />
-      </Route>
-      <Route path='/profile'>
-        {header}
-        <ProfilePage />
-      </Route>
+      <ProtectedRoute
+        header={header}
+        path='/movies'
+        component={MoviesPage}
+        loggedIn={loggedIn}
+      />
+      <ProtectedRoute
+        header={header}
+        path='/saved-movies'
+        component={SavedMoviesPage}
+        loggedIn={loggedIn}
+      />
+      <ProtectedRoute
+        header={header}
+        path='/profile'
+        component={ProfilePage}
+        loggedIn={loggedIn}
+      />
       <Route path='/signin'>
         {header}
         <LoginPage
@@ -84,9 +118,15 @@ function App() {
         {header}
         <RegisterPage
           isAuthPage={isAuthPage}
+          onRegisterFormSubmit={handleRegisterFormSubmit}
+          isLoading={isLoading}
+          serverErrorMsg={serverErrorMsg}
         />
       </Route>
       <Route component={NotFoundPage} />
+      <Route exact path='/'>
+        {loggedIn ? <Redirect to='/movies' /> : <Redirect to='/signin' />}
+      </Route>
     </Switch>
   );
 }
