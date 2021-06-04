@@ -10,6 +10,7 @@ const RegisterPage = (props) => {
     onRegisterFormSubmit,
     isLoading,
     serverErrorMsg,
+    resetServerErrorMsg,
   } = props;
 
   return (
@@ -21,6 +22,7 @@ const RegisterPage = (props) => {
         isLoading={isLoading}
         onFormSubmit={onRegisterFormSubmit}
         serverErrorMsg={serverErrorMsg}
+        resetServerErrorMsg={resetServerErrorMsg}
       />
     </PageMainContent>
   );

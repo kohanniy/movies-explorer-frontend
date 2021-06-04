@@ -8,6 +8,7 @@ const LoginPage = (props) => {
     onLoginFormSubmit,
     isLoading,
     serverErrorMsg,
+    resetServerErrorMsg,
   } = props;
 
   return (
@@ -19,6 +20,7 @@ const LoginPage = (props) => {
         isLoading={isLoading}
         onFormSubmit={onLoginFormSubmit}
         serverErrorMsg={serverErrorMsg}
+        resetServerErrorMsg={resetServerErrorMsg}
       />
     </PageMainContent>
   );

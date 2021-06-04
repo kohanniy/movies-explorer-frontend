@@ -28,6 +28,10 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
 
+  const resetServerErrorMsg = React.useCallback((newMsg = '') => {
+    setServerErrorMsg(newMsg);
+  }, [setServerErrorMsg]);
+
   const handleOpenNavButtonClick = () => {
     setNavOpened(true);
   }
@@ -73,9 +77,9 @@ const App = () => {
       })
       .catch((err) => {
         if (err.status === 401) {
-          setServerErrorMsg('Вы ввели неверный email или пароль! Попробуйте еще раз');
+          setServerErrorMsg('Нет такого пользователя. Попробуйте зарегистрируйтесь');
         } else if (err.status === 400) {
-            setServerErrorMsg('Не передано одно из полей');
+            setServerErrorMsg('В одном из полей переданы неверные данные');
         } else {
           setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
         }
@@ -143,6 +147,7 @@ const App = () => {
           onLoginFormSubmit={handleLoginFormSubmit}
           isLoading={isLoading}
           serverErrorMsg={serverErrorMsg}
+          resetServerErrorMsg={resetServerErrorMsg}
         />
       </Route>
       <Route path='/signup'>
@@ -152,6 +157,7 @@ const App = () => {
           onRegisterFormSubmit={handleRegisterFormSubmit}
           isLoading={isLoading}
           serverErrorMsg={serverErrorMsg}
+          resetServerErrorMsg={resetServerErrorMsg}
         />
       </Route>
       <Route component={NotFoundPage} />
