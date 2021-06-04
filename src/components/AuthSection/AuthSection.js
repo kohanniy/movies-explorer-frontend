@@ -9,13 +9,22 @@ import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 
 const AuthSection = (props) => {
-  const { isAuthPage, inputsData, sectionData, isLoading, onFormSubmit, serverErrorMsg } = props;
+  const {
+    isAuthPage,
+    inputsData,
+    sectionData,
+    isLoading,
+    onFormSubmit,
+    serverErrorMsg,
+    resetServerErrorMsg,
+  } = props;
 
   const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
 
   React.useEffect(() => {
     resetForm();
-  }, [resetForm]);
+    resetServerErrorMsg();
+  }, [resetForm, resetServerErrorMsg]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
