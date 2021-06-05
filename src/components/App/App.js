@@ -40,16 +40,46 @@ const App = () => {
 
   const handleCloseNavButtonClick = () => {
     setNavOpened(false);
-  }
+  };
 
-  const handleRegisterFormSubmit = (values) => {
-    const { email, password, name } = values;
+  const handleLoginFormSubmit = ({ email, password }) => {
+    setIsLoading(true);
+    mainApi.login(email, password)
+      .then((data) => {
+        if (data) {
+          setToken(data.token);
+          setLoggedIn(true);
+          setUserEmail(email);
+          history.push('/movies');
+        }
+      })
+      .catch((err) => {
+        switch(err.status) {
+          case 401:
+            setServerErrorMsg('Нет такого пользователя. Попробуйте зарегистрируйтесь');
+            break;
+          case 404:
+            setServerErrorMsg('Пользователь не найде');
+            break;
+          case 400:
+            setServerErrorMsg('В одном из полей переданы неверные данные');
+            break;
+          default:
+            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            break;
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  };
+
+  const handleRegisterFormSubmit = ({ email, password, name }) => {
     setIsLoading(!isLoading);
     mainApi.register(email, password, name)
       .then((data) => {
-        console.log(data);
-        setLoggedIn(true);
-        history.push('/movies');
+        console.log({email, password});
+        handleLoginFormSubmit({ email, password });
       })
       .catch((err) => {
         if (err.status === 400) {
@@ -65,17 +95,12 @@ const App = () => {
       })
   };
 
-  const handleLoginFormSubmit = (values) => {
-    const { email, password } = values;
-    setIsLoading(true);
-    mainApi.login(email, password)
-      .then((data) => {
-        if (data) {
-          setToken(data.token);
-          setLoggedIn(true);
-          setUserEmail(email);
-          history.push('/movies');
-        }
+  const handleUpdateUser = ({name, email}) => {
+    const token = getToken();
+    setIsLoading(!isLoading);
+    mainApi.setUserInfo({name, email}, token)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
       })
       .catch((err) => {
         if (err.status === 401) {
@@ -142,6 +167,10 @@ const App = () => {
           path='/profile'
           component={ProfilePage}
           loggedIn={loggedIn}
+          isLoading={isLoading}
+          onUpdateUser={handleUpdateUser}
+          serverErrorMsg={serverErrorMsg}
+          resetServerErrorMsg={resetServerErrorMsg}
         />
         <Route path='/signin'>
           {header}

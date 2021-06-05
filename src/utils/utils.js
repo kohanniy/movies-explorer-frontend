@@ -9,3 +9,10 @@ export const getToken = () => {
 export const removeToken = () => {
   localStorage.removeItem('token');
 }
+
+export const parseResponseFromServer = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(res);
+}

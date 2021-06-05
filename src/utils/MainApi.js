@@ -1,13 +1,9 @@
-class MainApi {
-  constructor({ url }) {
-    this._url = url;
-  }
+import { parseResponseFromServer } from '../utils/utils';
 
-  _parseResponseFromServer(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
+class MainApi {
+  constructor({ url, parseResponseFromServer }) {
+    this._url = url;
+    this._parseResponseFromServer = parseResponseFromServer;
   }
 
   register(email, password, name) {
@@ -30,6 +26,18 @@ class MainApi {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email, password })
+    })
+    .then(this._parseResponseFromServer)
+  }
+
+  setUserInfo(data, token) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     })
     .then(this._parseResponseFromServer)
   }
@@ -70,17 +78,8 @@ class MainApi {
     .then(this._parseResponseFromServer)
   }
 
-  setUserInfo(data, token) {
-    return fetch(`${this._url}/users/me`, {
-      method: 'PATCH',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(this._parseResponseFromServer)
-  }
+
+
 
   setAvatar(data, token) {
     return fetch(`${this._url}/users/me/avatar`, {
@@ -142,6 +141,7 @@ class MainApi {
 
 const mainApi = new MainApi({
   url: `https://api.mov-exp.kohanniy.nomoredomains.club`,
+  parseResponseFromServer
 });
 
 export default mainApi;

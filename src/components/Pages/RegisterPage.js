@@ -1,6 +1,6 @@
 import PageMainContent from '../PageMainContent/PageMainContent';
 import AuthSection from '../AuthSection/AuthSection';
-import { loginInputsData, additionalInputDataForRegistration, registerSectionData } from '../../utils/constants';
+import { loginInputsData, additionalInputDataForRegistration, registerSectionData, formNames } from '../../utils/constants';
 
 const registerInputsData = [additionalInputDataForRegistration, ...loginInputsData];
 
@@ -16,6 +16,7 @@ const RegisterPage = (props) => {
   return (
     <PageMainContent>
       <AuthSection
+        formName={formNames.register}
         isAuthPage={isAuthPage}
         inputsData={registerInputsData}
         sectionData={registerSectionData}

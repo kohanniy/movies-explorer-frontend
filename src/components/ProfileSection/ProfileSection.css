@@ -16,6 +16,7 @@
 .profile__form {
   width: 410px;
   margin-bottom: 16px;
+  min-height: 380px;
 }
 
 .profile__label {
@@ -51,6 +52,7 @@
   border: none;
   outline: none;
   padding-inline-end: 50px;
+  text-align: right;
 }
 
 .profile__input:focus {
@@ -75,7 +77,6 @@
   font-weight: 400;
   color: #000;
   transition: opacity 0.5s ease;
-  margin-top: 204px;
 }
 
 .profile__button_type_signout {
@@ -105,14 +106,11 @@
 
   .profile__form {
     width: 89%;
+    min-height: 466px;
   }
 
   .profile__button {
     font-size: 12px;
     line-height: 1.25;
-  }
-
-  .profile__button_type_submit {
-    margin-top: 363px;
   }
 }

@@ -1,6 +1,6 @@
 import PageMainContent from '../PageMainContent/PageMainContent';
 import AuthSection from '../AuthSection/AuthSection';
-import { loginInputsData, loginSectionData } from '../../utils/constants';
+import { loginInputsData, loginSectionData, formNames } from '../../utils/constants';
 
 const LoginPage = (props) => {
   const {
@@ -14,6 +14,7 @@ const LoginPage = (props) => {
   return (
     <PageMainContent>
       <AuthSection
+        formName={formNames.signin}
         isAuthPage={isAuthPage}
         inputsData={loginInputsData}
         sectionData={loginSectionData}

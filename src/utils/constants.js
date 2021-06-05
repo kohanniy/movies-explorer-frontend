@@ -223,4 +223,10 @@ export const registerSectionData = {
   link: '/signin'
 };
 
+export const formNames = {
+  register: 'register',
+  signin: 'signin',
+  editProfile: 'edit-profile',
+}
+
 export const regExpForCheckInputName = '^[А-Яа-яa-zA-ZЁё\\-\\s]+$';

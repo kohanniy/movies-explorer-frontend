@@ -17,6 +17,7 @@ const AuthSection = (props) => {
     onFormSubmit,
     serverErrorMsg,
     resetServerErrorMsg,
+    formName,
   } = props;
 
   const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
@@ -43,7 +44,7 @@ const AuthSection = (props) => {
           {sectionData.title}
         </Title>
         <Form
-          name='login'
+          name={formName}
           formClassName='auth__form'
           buttonClassName='auth__submit'
           onSubmit={handleSubmit}
