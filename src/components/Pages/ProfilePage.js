@@ -1,10 +1,17 @@
+import React from 'react';
 import ProfileSection from '../ProfileSection/ProfileSection';
 import PageMainContent from '../PageMainContent/PageMainContent';
 
-const ProfilePage = () => {
+
+const ProfilePage = ({ isLoading, onUpdateUser, serverErrorMsg, resetServerErrorMsg }) => {
   return (
     <PageMainContent>
-      <ProfileSection />
+      <ProfileSection
+        isLoading={isLoading}
+        onUpdateUser={onUpdateUser}
+        serverErrorMsg={serverErrorMsg}
+        resetServerErrorMsg={resetServerErrorMsg}
+      />
     </PageMainContent>
   );
 }
