@@ -13,6 +13,7 @@ import NotFoundPage from '../Pages/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
 import { setToken, getToken, removeToken } from '../../utils/utils';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 const App = () => {
   const [ isHomePage, setIsHomePage ] = React.useState();
@@ -23,6 +24,7 @@ const App = () => {
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
   const [ userEmail, setUserEmail ] = React.useState('');
+  const [ currentUser, setCurrentUser ] = React.useState({});
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -117,54 +119,56 @@ const App = () => {
                 />);
 
   return (
-    <Switch>
-      <Route exact path='/'>
-        {header}
-        <MainPage />
-      </Route>
-      <ProtectedRoute
-        header={header}
-        path='/movies'
-        component={MoviesPage}
-        loggedIn={loggedIn}
-      />
-      <ProtectedRoute
-        header={header}
-        path='/saved-movies'
-        component={SavedMoviesPage}
-        loggedIn={loggedIn}
-      />
-      <ProtectedRoute
-        header={header}
-        path='/profile'
-        component={ProfilePage}
-        loggedIn={loggedIn}
-      />
-      <Route path='/signin'>
-        {header}
-        <LoginPage
-          isAuthPage={isAuthPage}
-          onLoginFormSubmit={handleLoginFormSubmit}
-          isLoading={isLoading}
-          serverErrorMsg={serverErrorMsg}
-          resetServerErrorMsg={resetServerErrorMsg}
+    <CurrentUserContext.Provider value={currentUser}>
+      <Switch>
+        <Route exact path='/'>
+          {header}
+          <MainPage />
+        </Route>
+        <ProtectedRoute
+          header={header}
+          path='/movies'
+          component={MoviesPage}
+          loggedIn={loggedIn}
         />
-      </Route>
-      <Route path='/signup'>
-        {header}
-        <RegisterPage
-          isAuthPage={isAuthPage}
-          onRegisterFormSubmit={handleRegisterFormSubmit}
-          isLoading={isLoading}
-          serverErrorMsg={serverErrorMsg}
-          resetServerErrorMsg={resetServerErrorMsg}
+        <ProtectedRoute
+          header={header}
+          path='/saved-movies'
+          component={SavedMoviesPage}
+          loggedIn={loggedIn}
         />
-      </Route>
-      <Route component={NotFoundPage} />
-      <Route exact path='/'>
-        {loggedIn ? <Redirect to='/movies' /> : <Redirect to='/signin' />}
-      </Route>
-    </Switch>
+        <ProtectedRoute
+          header={header}
+          path='/profile'
+          component={ProfilePage}
+          loggedIn={loggedIn}
+        />
+        <Route path='/signin'>
+          {header}
+          <LoginPage
+            isAuthPage={isAuthPage}
+            onLoginFormSubmit={handleLoginFormSubmit}
+            isLoading={isLoading}
+            serverErrorMsg={serverErrorMsg}
+            resetServerErrorMsg={resetServerErrorMsg}
+          />
+        </Route>
+        <Route path='/signup'>
+          {header}
+          <RegisterPage
+            isAuthPage={isAuthPage}
+            onRegisterFormSubmit={handleRegisterFormSubmit}
+            isLoading={isLoading}
+            serverErrorMsg={serverErrorMsg}
+            resetServerErrorMsg={resetServerErrorMsg}
+          />
+        </Route>
+        <Route component={NotFoundPage} />
+        <Route exact path='/'>
+          {loggedIn ? <Redirect to='/movies' /> : <Redirect to='/signin' />}
+        </Route>
+      </Switch>
+    </CurrentUserContext.Provider>
   );
 }
 
