@@ -23,7 +23,6 @@ const App = () => {
   const [ navOpened, setNavOpened ] = React.useState(false);
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
-  const [ userEmail, setUserEmail ] = React.useState('');
   const [ currentUser, setCurrentUser ] = React.useState({});
 
   const windowWidth = useWindowWidth();
@@ -49,25 +48,47 @@ const App = () => {
         if (data) {
           setToken(data.token);
           setLoggedIn(true);
-          setUserEmail(email);
           history.push('/movies');
+
+          mainApi.getUserInfo(data.token)
+            .then((data) => {
+              setCurrentUser(data);
+            })
+            .catch((err) => {
+              history.push('/signin');
+              removeToken();
+              switch (err.status) {
+                case 401:
+                  setServerErrorMsg('Токен не передан или передан не в том формате. Заполните форму входа');
+                  break;
+                case 404:
+                  setServerErrorMsg('Пользователь не найден. Заполните форму входа или зарегистрируйтесь');
+                  break;
+                default:
+                  setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+                  break;
+              };
+            })
         }
       })
       .catch((err) => {
         switch(err.status) {
           case 401:
-            setServerErrorMsg('Нет такого пользователя. Попробуйте зарегистрируйтесь');
+            setServerErrorMsg('Нет пользователя с таким email или паролем');
             break;
           case 404:
-            setServerErrorMsg('Пользователь не найде');
+            setServerErrorMsg('Пользователь не найден');
             break;
           case 400:
             setServerErrorMsg('В одном из полей переданы неверные данные');
             break;
+          case 429:
+            setServerErrorMsg('Слишком много запросов с вашего устройства. Попробуйте позже');
+            break;
           default:
             setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
             break;
-        }
+        };
       })
       .finally(() => {
         setIsLoading(false);
@@ -78,17 +99,25 @@ const App = () => {
     setIsLoading(!isLoading);
     mainApi.register(email, password, name)
       .then((data) => {
-        console.log({email, password});
-        handleLoginFormSubmit({ email, password });
+        if (data) {
+          handleLoginFormSubmit({ email, password });
+        }
       })
       .catch((err) => {
-        if (err.status === 400) {
-          setServerErrorMsg('Неправильно заполнено одно из полей.');
-        } else if (err.status === 409) {
-          setServerErrorMsg('Пользователь с таким email уже зарегистрирован.');
-        } else {
-          setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
-        }
+        switch(err.status) {
+          case 400:
+            setServerErrorMsg('В одном из полей переданы неверные данные');
+            break;
+          case 409:
+            setServerErrorMsg('Пользователь с таким email уже зарегистрирован.');
+            break;
+          case 429:
+            setServerErrorMsg('Слишком много запросов с вашего устройства. Попробуйте позже');
+            break;
+          default:
+            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            break;
+        };
       })
       .finally(() => {
         setIsLoading(false);
@@ -98,22 +127,37 @@ const App = () => {
   const handleUpdateUser = ({name, email}) => {
     const token = getToken();
     setIsLoading(!isLoading);
-    mainApi.setUserInfo({name, email}, token)
+    mainApi.updateUserInfo({name, email}, token)
       .then((newUserData) => {
         setCurrentUser(newUserData);
       })
       .catch((err) => {
-        if (err.status === 401) {
-          setServerErrorMsg('Нет такого пользователя. Попробуйте зарегистрируйтесь');
-        } else if (err.status === 400) {
+        switch(err.status) {
+          case 400:
             setServerErrorMsg('В одном из полей переданы неверные данные');
-        } else {
-          setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
-        }
+            break;
+          case 404:
+            setServerErrorMsg('Пользователь не найден. Попробуйте еще раз');
+            break;
+          case 409:
+            setServerErrorMsg('Пользователь с таким email уже зарегистрирован.');
+            break;
+          case 429:
+            setServerErrorMsg('Слишком много запросов с вашего устройства. Попробуйте позже');
+            break;
+          default:
+            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            break;
+        };
       })
       .finally(() => {
         setIsLoading(false);
       })
+  };
+
+  const handleSignoutButtonClick = () => {
+    removeToken();
+    history.push('signin');
   }
 
   React.useEffect(() => {
@@ -131,6 +175,40 @@ const App = () => {
       ? setIsAuthPage(true)
       : setIsAuthPage(false);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    const tokenCheck = () => {
+      if (getToken()){
+        const path = location.pathname;
+        const token = getToken();
+        mainApi.getUserInfo(token)
+          .then((data) => {
+            if (data) {
+              setCurrentUser(data);
+              setLoggedIn(true);
+              history.push(path);
+            }
+          })
+          .catch((err) => {
+            history.push('/signin');
+            removeToken();
+            console.log(err);
+            switch (err.status) {
+              case 401:
+                setServerErrorMsg('Токен не передан или передан не в том формате. Заполните форму входа');
+                break;
+              case 404:
+                setServerErrorMsg('Пользователь не найден. Заполните форму входа или зарегистрируйтесь');
+                break;
+              default:
+                setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+                break;
+            };
+          })
+      }
+    };
+    tokenCheck();
+  }, []);
 
   const header = (<Header
                   isHomePage={isHomePage}
@@ -171,6 +249,7 @@ const App = () => {
           onUpdateUser={handleUpdateUser}
           serverErrorMsg={serverErrorMsg}
           resetServerErrorMsg={resetServerErrorMsg}
+          onSignoutButtonClick={handleSignoutButtonClick}
         />
         <Route path='/signin'>
           {header}

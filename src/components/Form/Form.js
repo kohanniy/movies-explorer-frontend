@@ -10,7 +10,7 @@ const Form = (props) => {
     children,
     onSubmit,
     isDisabled,
-    serverErrorMsg
+    serverErrorMsg,
   } = props;
 
   let buttonClasses = `form__submit ${buttonClassName}`;

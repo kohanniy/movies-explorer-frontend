@@ -30,7 +30,7 @@ class MainApi {
     .then(this._parseResponseFromServer)
   }
 
-  setUserInfo(data, token) {
+  updateUserInfo(data, token) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -38,6 +38,16 @@ class MainApi {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
+    })
+    .then(this._parseResponseFromServer)
+  }
+
+  getUserInfo(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`
+      }
     })
     .then(this._parseResponseFromServer)
   }
@@ -52,15 +62,7 @@ class MainApi {
     .then(this._parseResponseFromServer)
   }
 
-  getUserInfo(token) {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-    .then(this._parseResponseFromServer)
-  }
+
 
   getDataForRendered(token) {
     return Promise.all([ this.getInitialCards(token), this.getUserInfo(token) ])
