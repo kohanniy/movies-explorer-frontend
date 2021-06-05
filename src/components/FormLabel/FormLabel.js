@@ -7,7 +7,6 @@ const FormLabel = (props) => {
     labelClassName,
     labelTextClassName,
     labelText,
-    inputDir,
     inputType,
     inputName,
     placeholder,
@@ -16,7 +15,8 @@ const FormLabel = (props) => {
     maxLength,
     errors,
     handleChange,
-    values
+    values,
+    onFocus,
   } = props;
 
   return (
@@ -25,13 +25,12 @@ const FormLabel = (props) => {
         {labelText}
       </span>
       <input
-        dir={inputDir}
         type={inputType}
         name={inputName}
         id={inputName}
         required
         autoComplete='on'
-        className={inputClassName}
+        className={`input ${inputClassName}`}
         minLength={minLength}
         maxLength={maxLength}
         placeholder={placeholder}
@@ -39,6 +38,7 @@ const FormLabel = (props) => {
         value={values[inputName] || ''}
         pattern={inputName === 'name' ? regExpForCheckInputName : null}
         title={inputName === 'name' ? 'Имя должно содержать только латиницу, кириллицу, дефисы и пробелы' : null}
+        onFocus={onFocus}
       />
       <InputError
         inputName={inputName}

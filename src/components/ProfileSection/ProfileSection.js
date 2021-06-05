@@ -14,6 +14,7 @@ const ProfileSection = (props) => {
     onUpdateUser,
     serverErrorMsg,
     resetServerErrorMsg,
+    onSignoutButtonClick,
   } = props;
 
   const { values, handleChange, errors, isValid, resetForm, setValues, setIsValid } = useFormAndValidation();
@@ -25,12 +26,16 @@ const ProfileSection = (props) => {
     resetServerErrorMsg();
     setValues(currentUser);
     setIsValid(true);
-    console.log(currentUser);
   }, [resetForm, currentUser, setValues, setIsValid, resetServerErrorMsg]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdateUser(values);
+  }
+
+  const handleFocus = (e) => {
+    e.preventDefault();
+    resetServerErrorMsg();
   }
 
   return (
@@ -66,6 +71,7 @@ const ProfileSection = (props) => {
                 handleChange={handleChange}
                 values={values}
                 errors={errors}
+                onFocus={handleFocus}
               />
             ))
           }
@@ -73,6 +79,7 @@ const ProfileSection = (props) => {
         <button
           className='profile__button profile__button_type_signout'
           type='button'
+          onClick={onSignoutButtonClick}
         >
           Выйти из аккаунта
         </button>

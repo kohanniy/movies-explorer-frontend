@@ -32,6 +32,11 @@ const AuthSection = (props) => {
     onFormSubmit(values);
   }
 
+  const handleFocus = (e) => {
+    e.preventDefault();
+    resetServerErrorMsg();
+  }
+
   return (
     <section className='auth'>
       <Container
@@ -68,6 +73,7 @@ const AuthSection = (props) => {
                 handleChange={handleChange}
                 values={values}
                 errors={errors}
+                onFocus={handleFocus}
               />
             ))
           }

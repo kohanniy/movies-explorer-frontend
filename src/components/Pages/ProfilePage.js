@@ -3,7 +3,7 @@ import ProfileSection from '../ProfileSection/ProfileSection';
 import PageMainContent from '../PageMainContent/PageMainContent';
 
 
-const ProfilePage = ({ isLoading, onUpdateUser, serverErrorMsg, resetServerErrorMsg }) => {
+const ProfilePage = ({ isLoading, onUpdateUser, serverErrorMsg, resetServerErrorMsg, onSignoutButtonClick }) => {
   return (
     <PageMainContent>
       <ProfileSection
@@ -11,6 +11,7 @@ const ProfilePage = ({ isLoading, onUpdateUser, serverErrorMsg, resetServerError
         onUpdateUser={onUpdateUser}
         serverErrorMsg={serverErrorMsg}
         resetServerErrorMsg={resetServerErrorMsg}
+        onSignoutButtonClick={onSignoutButtonClick}
       />
     </PageMainContent>
   );
