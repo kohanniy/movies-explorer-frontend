@@ -1,7 +1,7 @@
 import './NotFound.css';
 import Container from '../Container/Container';
 
-const NotFound = () => {
+const NotFound = ({ onButtonClick }) => {
   return (
     <section className='not-found'>
       <Container
@@ -15,9 +15,9 @@ const NotFound = () => {
             Страница не найдена
           </p>
         </div>
-        <a href='/' className='not-found__back-link'>
+        <button className='not-found__back-link' onClick={onButtonClick}>
           Назад
-        </a>
+        </button>
       </Container>
     </section>
   );

@@ -157,7 +157,12 @@ const App = () => {
 
   const handleSignoutButtonClick = () => {
     removeToken();
-    history.push('signin');
+    setLoggedIn(false);
+    history.push('/');
+  };
+
+  const handleGoBackButtonClick = () => {
+    history.goBack();
   }
 
   React.useEffect(() => {
@@ -271,7 +276,11 @@ const App = () => {
             resetServerErrorMsg={resetServerErrorMsg}
           />
         </Route>
-        <Route component={NotFoundPage} />
+        <Route>
+          <NotFoundPage
+            onButtonClick={handleGoBackButtonClick}
+          />
+        </Route>
         <Route exact path='/'>
           {loggedIn ? <Redirect to='/movies' /> : <Redirect to='/signin' />}
         </Route>

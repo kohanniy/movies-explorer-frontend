@@ -52,90 +52,66 @@ class MainApi {
     .then(this._parseResponseFromServer)
   }
 
-  getInitialCards(token) {
-    return fetch(`${this._url}/cards`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-    .then(this._parseResponseFromServer)
-  }
-
-
-
-  getDataForRendered(token) {
-    return Promise.all([ this.getInitialCards(token), this.getUserInfo(token) ])
-  }
-
-  addCard(data, token) {
-    return fetch(`${this._url}/cards`, {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(this._parseResponseFromServer)
-  }
-
-
-
-
-  setAvatar(data, token) {
-    return fetch(`${this._url}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(this._parseResponseFromServer)
-  }
-
-  deleteCard(id, token) {
-    return fetch(`${this._url}/cards/${id}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-    .then(this._parseResponseFromServer)
-  }
-
-  changeLikeCardStatus(id, like, token) {
-    return fetch(`${this._url}/cards/${id}/likes`, {
-      method: like ? 'PUT' : 'DELETE',
-      headers: {
-        authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(this._parseResponseFromServer)
-  }
-
-  // register(password, email) {
-  //   return fetch (`${this._url}/signup`, {
-  //     method: 'POST',
+  // getInitialCards(token) {
+  //   return fetch(`${this._url}/cards`, {
+  //     method: 'GET',
   //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({password, email})
+  //       authorization: `Bearer ${token}`
+  //     }
   //   })
   //   .then(this._parseResponseFromServer)
-  // };
+  // }
 
-  // authorize(password, email) {
-  //   return fetch(`${this._url}/signin`, {
+
+
+  // getDataForRendered(token) {
+  //   return Promise.all([ this.getInitialCards(token), this.getUserInfo(token) ])
+  // }
+
+  // addCard(data, token) {
+  //   return fetch(`${this._url}/cards`, {
   //     method: 'POST',
   //     headers: {
-  //       'Accept': 'application/json',
+  //       authorization: `Bearer ${token}`,
   //       'Content-Type': 'application/json'
   //     },
-  //     body: JSON.stringify({ password, email })
+  //     body: JSON.stringify(data)
+  //   })
+  //   .then(this._parseResponseFromServer)
+  // }
+
+
+
+
+  // setAvatar(data, token) {
+  //   return fetch(`${this._url}/users/me/avatar`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       authorization: `Bearer ${token}`,
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(data)
+  //   })
+  //   .then(this._parseResponseFromServer)
+  // }
+
+  // deleteCard(id, token) {
+  //   return fetch(`${this._url}/cards/${id}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       authorization: `Bearer ${token}`
+  //     }
+  //   })
+  //   .then(this._parseResponseFromServer)
+  // }
+
+  // changeLikeCardStatus(id, like, token) {
+  //   return fetch(`${this._url}/cards/${id}/likes`, {
+  //     method: like ? 'PUT' : 'DELETE',
+  //     headers: {
+  //       authorization: `Bearer ${token}`,
+  //       'Content-Type': 'application/json'
+  //     }
   //   })
   //   .then(this._parseResponseFromServer)
   // }

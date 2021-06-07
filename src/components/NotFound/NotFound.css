@@ -38,7 +38,11 @@
   font-size: 14px;
   line-height: 1.21;
   color: #3456f3;
+  background: transparent;
+  border: none;
+  outline: none;
   transition: opacity 0.5s ease;
+  cursor: pointer;
 }
 
 .not-found__back-link:hover {
