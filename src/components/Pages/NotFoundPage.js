@@ -1,10 +1,12 @@
 import NotFound from '../NotFound/NotFound';
 import PageMainContent from '../PageMainContent/PageMainContent';
 
-const NotFoundPage = () => {
+const NotFoundPage = ({ onButtonClick }) => {
   return (
     <PageMainContent>
-      <NotFound />
+      <NotFound
+        onButtonClick={onButtonClick}
+      />
     </PageMainContent>
   )
 };
