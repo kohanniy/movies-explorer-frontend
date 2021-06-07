@@ -3,13 +3,25 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-const MoviesPage = () => {
+const MoviesPage = (props) => {
+  const {
+    onSubmit,
+    moviesData,
+    isLoading,
+    serverErrorMsg
+  } = props;
+
   return (
     <>
       <PageMainContent>
-        <SearchForm/>
+        <SearchForm
+          onSubmit={onSubmit}
+        />
         <MoviesCardList
+          isLoading={isLoading}
+          moviesData={moviesData}
           savedMoviesPage={false}
+          serverErrorMsg={serverErrorMsg}
         />
       </PageMainContent>
       <Footer />

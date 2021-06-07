@@ -12,8 +12,16 @@ import { moviesLinks, homePageLink } from '../../utils/constants';
 import NotFoundPage from '../Pages/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
-import { setToken, getToken, removeToken } from '../../utils/utils';
+import {
+  setToken,
+  getToken,
+  removeToken,
+  setMovies,
+  getMovies,
+  removeMovies,
+} from '../../utils/utils';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { getAllMovies } from '../../utils/MoviesApi';
 
 const App = () => {
   const [ isHomePage, setIsHomePage ] = React.useState();
@@ -24,6 +32,7 @@ const App = () => {
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
   const [ currentUser, setCurrentUser ] = React.useState({});
+  const [ searchMovies, setSearchMovies ] = React.useState();
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -158,12 +167,43 @@ const App = () => {
   const handleSignoutButtonClick = () => {
     removeToken();
     setLoggedIn(false);
+    removeMovies();
+    setSearchMovies(null);
     history.push('/');
   };
 
   const handleGoBackButtonClick = () => {
     history.goBack();
-  }
+  };
+
+  const handleSearchMovies = (values) => {
+    const { 'search-query': searchQuery } = values;
+    const regExpQuery = new RegExp(searchQuery, 'gi');
+    setIsLoading(true);
+    getAllMovies()
+      .then((movies) => {
+        // if (!movies) {
+        //   setServerErrorMsg('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+        // }
+        const searchMoviesResult = movies.filter((movie) =>
+          regExpQuery.test(movie.nameRU) || regExpQuery.test(movie.nameEN));
+        setMovies(searchMoviesResult);
+        setSearchMovies(searchMoviesResult);
+        // setServerErrorMsg('');
+      })
+      .catch((err) => {
+        console.log(err);
+        // setServerErrorMsg('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+  };
+
+  React.useEffect(() => {
+    const movies = getMovies();
+    setSearchMovies(JSON.parse(movies));
+  }, []);
 
   React.useEffect(() => {
     windowWidth <= 768
@@ -197,7 +237,6 @@ const App = () => {
           .catch((err) => {
             history.push('/signin');
             removeToken();
-            console.log(err);
             switch (err.status) {
               case 401:
                 setServerErrorMsg('Токен не передан или передан не в том формате. Заполните форму входа');
@@ -238,6 +277,10 @@ const App = () => {
           path='/movies'
           component={MoviesPage}
           loggedIn={loggedIn}
+          onSubmit={handleSearchMovies}
+          moviesData={searchMovies}
+          isLoading={isLoading}
+          serverErrorMsg={serverErrorMsg}
         />
         <ProtectedRoute
           header={header}
@@ -290,3 +333,57 @@ const App = () => {
 }
 
 export default App;
+
+// {
+//   "id": 1,
+//   "nameRU": "«Роллинг Стоунз» в изгнании",
+//   "nameEN": "Stones in Exile",
+//   "director": "Стивен Кайак ",
+//   "country": "США",
+//   "year": "2010",
+//   "duration": 61,
+//   "description": "В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты и сверхуспешные концертные туры, была разорена. Виной всему — бездарный менеджмент и драконовское налогообложение в Британии. Тогда музыканты приняли не самое простое для себя решение: летом 1971 года после выхода альбома «Stiсky Fingers» они отправились на юг Франции записывать новую пластинку. Именно там, на Лазурном Берегу, в арендованном Китом Ричардсом подвале виллы Неллькот родился сборник «Exile on Main St.», который стал лучшим альбомом легендарной группы.",
+//   "trailerLink": "https://www.youtube.com/watch?v=UXcqcdYABFw",
+//   "created_at": "2020-11-23T14:12:21.376Z",
+//   "updated_at": "2020-11-23T14:12:21.376Z",
+//   "image": {
+//     "id": 1,
+//     "name": "stones-in-exile",
+//     "alternativeText": "",
+//     "caption": "",
+//     "width": 512,
+//     "height": 279,
+//     "formats": {
+//       "thumbnail": {
+//         "hash": "thumbnail_stones_in_exile_b2f1b8f4b7",
+//         "ext": ".jpeg",
+//         "mime": "image/jpeg",
+//         "width": 245,
+//         "height": 134,
+//         "size": 8.79,
+//         "path": null,
+//         "url": "/uploads/thumbnail_stones_in_exile_b2f1b8f4b7.jpeg"
+//       },
+//       "small": {
+//         "hash": "small_stones_in_exile_b2f1b8f4b7",
+//         "ext": ".jpeg",
+//         "mime": "image/jpeg",
+//         "width": 500,
+//         "height": 272,
+//         "size": 25.68,
+//         "path": null,
+//         "url": "/uploads/small_stones_in_exile_b2f1b8f4b7.jpeg"
+//       }
+//     },
+//     "hash": "stones_in_exile_b2f1b8f4b7",
+//     "ext": ".jpeg",
+//     "mime": "image/jpeg",
+//     "size": 25.53,
+//     "url": "/uploads/stones_in_exile_b2f1b8f4b7.jpeg",
+//     "previewUrl": null,
+//     "provider": "local",
+//     "provider_metadata": null,
+//     "created_at": "2020-11-23T14:11:57.313Z",
+//     "updated_at": "2020-11-23T14:11:57.313Z"
+//   }
+// }

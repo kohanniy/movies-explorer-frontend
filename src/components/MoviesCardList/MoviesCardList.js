@@ -2,33 +2,45 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Container from '../Container/Container';
 import MoreButton from '../MoreButton/MoreButton';
-import { moviesCardData } from '../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 
-const MoviesCardList = ({ savedMoviesPage }) => {
+const MoviesCardList = ({ savedMoviesPage, moviesData, isLoading, serverErrorMsg }) => {
   return (
     <section className='cards'>
       <Container
         additionalClass='cards__container'
       >
-        <ul className='cards__list'>
-          {
-            moviesCardData.map((item, index) =>
-              (
-                <MoviesCard
-                  key={index}
-                  moviesCardData={item}
-                  savedMoviesPage={savedMoviesPage}
-                />
-              )
-            )
-          }
-        </ul>
         {
-          savedMoviesPage
+          moviesData === null
             ? null
-            : <MoreButton
-                additionalClass='cards__more-button'
-              />
+            : isLoading
+                ? <Preloader/>
+                : moviesData.length === 0
+                    ? <p className='cards__not-found'>
+                        Ничего не найдено
+                      </p>
+                    : <>
+                        <ul className='cards__list'>
+                          {
+                            moviesData.map((movie, index) =>
+                              (
+                                <MoviesCard
+                                  key={index}
+                                  movieData={movie}
+                                  savedMoviesPage={savedMoviesPage}
+                                />
+                              )
+                            )
+                          }
+                        </ul>
+                        {
+                          savedMoviesPage
+                            ? null
+                            : <MoreButton
+                                additionalClass='cards__more-button'
+                              />
+                        }
+                      </>
         }
       </Container>
     </section>
