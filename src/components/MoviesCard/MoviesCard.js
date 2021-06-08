@@ -14,8 +14,6 @@ const MoviesCard = ({ movieData, savedMoviesPage }) => {
     btnAriaLabel = 'сохранить фильм';
   }
 
-  console.log(movieData);
-
   return (
     <li className='movie-card'>
       <a
@@ -34,7 +32,6 @@ const MoviesCard = ({ movieData, savedMoviesPage }) => {
                 />
               : <figcaption>У этого фильма нет заставки</figcaption>
           }
-
         </figure>
         <div className='movie-card__info'>
           <h3 className='movie-card__title'>

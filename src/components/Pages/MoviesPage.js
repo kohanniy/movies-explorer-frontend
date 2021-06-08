@@ -8,7 +8,7 @@ const MoviesPage = (props) => {
     onSubmit,
     moviesData,
     isLoading,
-    serverErrorMsg
+    searchResultMsg
   } = props;
 
   return (
@@ -21,7 +21,7 @@ const MoviesPage = (props) => {
           isLoading={isLoading}
           moviesData={moviesData}
           savedMoviesPage={false}
-          serverErrorMsg={serverErrorMsg}
+          searchResultMsg={searchResultMsg}
         />
       </PageMainContent>
       <Footer />
