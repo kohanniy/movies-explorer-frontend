@@ -33,6 +33,7 @@ const App = () => {
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
   const [ currentUser, setCurrentUser ] = React.useState({});
   const [ searchMovies, setSearchMovies ] = React.useState();
+  const [ searchResultMsg, setSearchResultMsg ] = React.useState('')
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -177,23 +178,30 @@ const App = () => {
   };
 
   const handleSearchMovies = (values) => {
-    const { 'search-query': searchQuery } = values;
-    const regExpQuery = new RegExp(searchQuery, 'gi');
+    const { query, checked } = values;
+    const regExpQuery = new RegExp(query, 'gi');
     setIsLoading(true);
     getAllMovies()
       .then((movies) => {
-        // if (!movies) {
-        //   setServerErrorMsg('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-        // }
         const searchMoviesResult = movies.filter((movie) =>
           regExpQuery.test(movie.nameRU) || regExpQuery.test(movie.nameEN));
-        setMovies(searchMoviesResult);
-        setSearchMovies(searchMoviesResult);
-        // setServerErrorMsg('');
+        if (searchMoviesResult.length === 0) {
+          setSearchResultMsg('Ничего не найдено');
+        } else {
+          setSearchResultMsg('');
+        }
+        if (checked && searchMoviesResult !== 0) {
+          const searchShortMoviesResult = searchMoviesResult.filter((item) =>
+            item.duration <= 40);
+          setSearchMovies(searchShortMoviesResult);
+          setMovies(searchShortMoviesResult);
+        } else {
+          setSearchMovies(searchMoviesResult);
+          setMovies(searchMoviesResult);
+        }
       })
-      .catch((err) => {
-        console.log(err);
-        // setServerErrorMsg('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+      .catch(() => {
+        setSearchResultMsg('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
       })
       .finally(() => {
         setIsLoading(false);
@@ -254,6 +262,10 @@ const App = () => {
     tokenCheck();
   }, []);
 
+  React.useEffect(() => {
+    setSearchResultMsg('');
+  }, []);
+
   const header = (<Header
                   isHomePage={isHomePage}
                   isAuthPage={isAuthPage}
@@ -280,7 +292,7 @@ const App = () => {
           onSubmit={handleSearchMovies}
           moviesData={searchMovies}
           isLoading={isLoading}
-          serverErrorMsg={serverErrorMsg}
+          searchResultMsg={searchResultMsg}
         />
         <ProtectedRoute
           header={header}
@@ -387,3 +399,13 @@ export default App;
 //     "updated_at": "2020-11-23T14:11:57.313Z"
 //   }
 // }
+
+
+// const [filterIsOn, setFilterIsOn] = useState(false);
+
+//   // eslint-disable-next-line max-len
+//   const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < SHORT_MOVIE_DURATION_MIN);
+
+//   const onFilterClick = () => {
+//     setFilterIsOn(!filterIsOn);
+//   };

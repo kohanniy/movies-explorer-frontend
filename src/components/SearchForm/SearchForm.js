@@ -5,14 +5,41 @@ import Container from '../Container/Container';
 
 const SearchForm = ({ onSubmit }) => {
   const { values, handleChange, resetForm } = useFormAndValidation();
+  const [ error, setError ] = React.useState('');
+  const [ checked, setChecked ] = React.useState(false);
+  let inputClasses = 'search__input';
 
-  React.useEffect(() => {
-    resetForm();
-  }, [resetForm]);
+  if (error) inputClasses += ' search__input_error';
+
+  let { 'search-query': query } = values;
+
+  // React.useEffect(() => {
+  //   resetForm();
+  // }, [resetForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(values);
+    resetForm();
+    if (!query) {
+      setError('Нужно ввести ключевое слово');
+    } else {
+      onSubmit({query, checked});
+      setError('')
+    }
+  };
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      setError('');
+    }, 500);
+  };
+
+  const handleBlur = () => {
+    setError('');
+  }
+
+  const handleChecked = () => {
+    setChecked(!checked);
   }
 
   return (
@@ -25,15 +52,18 @@ const SearchForm = ({ onSubmit }) => {
           role='search'
           name='search'
           onSubmit={handleSubmit}
+          noValidate
         >
           <input
-            className='search__input'
+            className={inputClasses}
             aria-label='поиск фильмов'
             type='search'
             autoComplete='on'
-            placeholder='Фильм'
+            placeholder={error ? error : 'Фильм'}
             name='search-query'
             onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             required
           />
           <label htmlFor='short-films' className='search__label'>
@@ -42,7 +72,7 @@ const SearchForm = ({ onSubmit }) => {
               id='short-films'
               className='search__checkbox'
               name='short-films'
-              defaultChecked
+              onChange={handleChecked}
             />
             <span className='search__pseudo-checkbox' />
             <span className='search__label-text'>Короткометражки</span>

@@ -43,15 +43,30 @@
   border: 1.5px solid rgba(170, 170, 170, 1);
 }
 
+.search__input:active {
+  background: transparent;
+}
+
 .search__input:focus::placeholder {
   color: transparent;
+}
+
+.search__input_error::placeholder {
+  color: #ff3055;
 }
 
 .search__label {
   grid-row: 2;
   grid-column: 1/2;
+  justify-self: start;
   display: flex;
   align-items: center;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+
+.search__label:hover {
+  opacity: 0.7;
 }
 
 .search__checkbox {
@@ -71,8 +86,6 @@
   border-radius: 20px;
   margin-right: 15px;
   position: relative;
-  cursor: pointer;
-  transition: all 0.5s ease;
 }
 
 .search__pseudo-checkbox::after {
@@ -85,10 +98,6 @@
   left: 2px;
   position: absolute;
   transition: left 0.5s ease;
-}
-
-.search__pseudo-checkbox:hover {
-  opacity: 0.7;
 }
 
 .search__checkbox:checked + .search__pseudo-checkbox {
