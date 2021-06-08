@@ -1,10 +1,17 @@
 import './MoreButton.css';
 
-const MoreButton = ({ additionalClass }) => {
+const MoreButton = ({ additionalClass, onMoreButtonClick, moreButtonShow }) => {
   return (
-    <button type='button' className={`more-button ${additionalClass}`} aria-label='показать другие фильмы'>
-      Ещё
-    </button>
+      moreButtonShow
+        ? <button
+            type='button'
+            className={`more-button ${additionalClass}`}
+            aria-label='показать другие фильмы'
+            onClick={onMoreButtonClick}
+          >
+            Ещё
+          </button>
+        : null
   );
 };
 

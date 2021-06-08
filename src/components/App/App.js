@@ -33,7 +33,10 @@ const App = () => {
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
   const [ currentUser, setCurrentUser ] = React.useState({});
   const [ searchMovies, setSearchMovies ] = React.useState();
-  const [ searchResultMsg, setSearchResultMsg ] = React.useState('')
+  const [ searchResultMsg, setSearchResultMsg ] = React.useState('');
+  const [ numSearchMoviesDisplay, setNumSearchMoviesDisplay ] = React.useState();
+  const [ numSearcMoviesAddedDisplay, setNumSearcMoviesAddedDisplay ] = React.useState();
+  const [ moreButtonShow, setMoreButtonShow ] = React.useState();
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -180,23 +183,37 @@ const App = () => {
   const handleSearchMovies = (values) => {
     const { query, checked } = values;
     const regExpQuery = new RegExp(query, 'gi');
+
     setIsLoading(true);
     getAllMovies()
       .then((movies) => {
         const searchMoviesResult = movies.filter((movie) =>
           regExpQuery.test(movie.nameRU) || regExpQuery.test(movie.nameEN));
-        if (searchMoviesResult.length === 0) {
-          setSearchResultMsg('Ничего не найдено');
-        } else {
-          setSearchResultMsg('');
-        }
-        if (checked && searchMoviesResult !== 0) {
+
+        searchMoviesResult.length === 0
+          ? setSearchResultMsg('Ничего не найдено')
+          : setSearchResultMsg('')
+
+        if (checked) {
           const searchShortMoviesResult = searchMoviesResult.filter((item) =>
             item.duration <= 40);
-          setSearchMovies(searchShortMoviesResult);
+
+          searchShortMoviesResult.length === 0
+          ? setSearchResultMsg('Ничего не найдено')
+          : setSearchResultMsg('')
+
+          searchShortMoviesResult.length <= numSearcMoviesAddedDisplay
+            ? setMoreButtonShow(false)
+            : setMoreButtonShow(true)
+
+          setSearchMovies(searchShortMoviesResult.slice(0, numSearchMoviesDisplay));
           setMovies(searchShortMoviesResult);
         } else {
-          setSearchMovies(searchMoviesResult);
+          searchMoviesResult.length <= numSearcMoviesAddedDisplay
+            ? setMoreButtonShow(false)
+            : setMoreButtonShow(true)
+
+          setSearchMovies(searchMoviesResult.slice(0, numSearchMoviesDisplay));
           setMovies(searchMoviesResult);
         }
       })
@@ -208,12 +225,44 @@ const App = () => {
       })
   };
 
-  React.useEffect(() => {
-    const movies = getMovies();
-    setSearchMovies(JSON.parse(movies));
-  }, []);
+  const handleMoreButtonClick = () => {
+    const movies = JSON.parse(getMovies());
+    setSearchMovies(movies.slice(0, searchMovies.length + numSearcMoviesAddedDisplay));
+
+    searchMovies.length >= movies.length - numSearcMoviesAddedDisplay
+      ? setMoreButtonShow(false)
+      : setMoreButtonShow(true)
+  }
+
 
   React.useEffect(() => {
+    const movies = JSON.parse(getMovies());
+    movies.length <= numSearcMoviesAddedDisplay
+      ? setMoreButtonShow(false)
+      : setMoreButtonShow(true)
+    setSearchMovies(movies.slice(0, numSearchMoviesDisplay));
+  }, [numSearcMoviesAddedDisplay, numSearchMoviesDisplay]);
+
+  React.useEffect(() => {
+    if (windowWidth > 1024) {
+      setNumSearchMoviesDisplay(12);
+      setNumSearcMoviesAddedDisplay(4);
+    }
+
+    if (windowWidth <= 1024) {
+      setNumSearchMoviesDisplay(12);
+      setNumSearcMoviesAddedDisplay(3);
+    }
+
+    if (windowWidth <= 768) {
+      setNumSearchMoviesDisplay(8);
+      setNumSearcMoviesAddedDisplay(2);
+    }
+
+    if (windowWidth <= 575) {
+      setNumSearchMoviesDisplay(5);
+      setNumSearcMoviesAddedDisplay(2);
+    }
     windowWidth <= 768
       ? setApplicationLinks([homePageLink, ...moviesLinks])
       : setApplicationLinks(moviesLinks)
@@ -293,6 +342,8 @@ const App = () => {
           moviesData={searchMovies}
           isLoading={isLoading}
           searchResultMsg={searchResultMsg}
+          handleMoreButtonClick={handleMoreButtonClick}
+          moreButtonShow={moreButtonShow}
         />
         <ProtectedRoute
           header={header}

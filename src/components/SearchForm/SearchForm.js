@@ -13,13 +13,12 @@ const SearchForm = ({ onSubmit }) => {
 
   let { 'search-query': query } = values;
 
-  // React.useEffect(() => {
-  //   resetForm();
-  // }, [resetForm]);
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    resetForm();
     if (!query) {
       setError('Нужно ввести ключевое слово');
     } else {
