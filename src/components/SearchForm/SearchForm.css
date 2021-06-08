@@ -43,8 +43,9 @@
   border: 1.5px solid rgba(170, 170, 170, 1);
 }
 
-.search__input:active {
-  background: transparent;
+.search__input:-webkit-autofill {
+  box-shadow: inset 0 0 0 1000px #fff;
+  -webkit-text-fill-color: #a0a0a0;
 }
 
 .search__input:focus::placeholder {

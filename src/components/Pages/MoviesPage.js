@@ -8,7 +8,9 @@ const MoviesPage = (props) => {
     onSubmit,
     moviesData,
     isLoading,
-    searchResultMsg
+    searchResultMsg,
+    handleMoreButtonClick,
+    moreButtonShow,
   } = props;
 
   return (
@@ -22,6 +24,8 @@ const MoviesPage = (props) => {
           moviesData={moviesData}
           savedMoviesPage={false}
           searchResultMsg={searchResultMsg}
+          onMoreButtonClick={handleMoreButtonClick}
+          moreButtonShow={moreButtonShow}
         />
       </PageMainContent>
       <Footer />
