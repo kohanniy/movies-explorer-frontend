@@ -10,6 +10,7 @@ const Navigation = (props) => {
     handleCloseNavButtonClick,
     navOpened
   } = props;
+  
   return (
     loggedIn
       ? <ApplicationNavigation

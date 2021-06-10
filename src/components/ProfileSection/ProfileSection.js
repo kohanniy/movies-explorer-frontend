@@ -27,12 +27,12 @@ const ProfileSection = (props) => {
     setIsValid(true);
   }, [resetForm, currentUser, setValues, setIsValid]);
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     onUpdateUser(values);
   }
 
-  const handleFocus = (e) => {
+  function handleFocus(e) {
     e.preventDefault();
     resetServerErrorMsg();
   }

@@ -4,7 +4,7 @@ import Container from '../Container/Container';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import { navTabData, socialLinks } from '../../utils/constants';
 
-const AboutMe = () => {
+function AboutMe() {
   return (
     <section id={navTabData[2].hash} className='about-me'>
       <Container

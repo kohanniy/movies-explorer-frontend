@@ -4,7 +4,7 @@ import Container from '../Container/Container';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import { navTabData, aboutProjectDescription, aboutProjectSchedule } from '../../utils/constants';
 
-const AboutProject = () => {
+function AboutProject() {
   return (
     <section id={navTabData[0].hash} className='about-project'>
       <Container
