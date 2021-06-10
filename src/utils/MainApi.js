@@ -1,4 +1,5 @@
 import { parseResponseFromServer } from '../utils/utils';
+import { BEATFILM_URL, IMAGE_URL } from '../utils/constants';
 
 class MainApi {
   constructor({ url, parseResponseFromServer }) {
@@ -16,7 +17,7 @@ class MainApi {
       body: JSON.stringify({ email, password, name })
     })
     .then(this._parseResponseFromServer)
-  };
+  }
 
   login(email, password) {
     return fetch(`${this._url}/signin`, {
@@ -34,7 +35,7 @@ class MainApi {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -46,75 +47,72 @@ class MainApi {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(this._parseResponseFromServer)
   }
 
-  // getInitialCards(token) {
-  //   return fetch(`${this._url}/cards`, {
-  //     method: 'GET',
-  //     headers: {
-  //       authorization: `Bearer ${token}`
-  //     }
-  //   })
-  //   .then(this._parseResponseFromServer)
-  // }
+  getSavedMovies(token) {
+    return fetch(`${this._url}/movies`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(this._parseResponseFromServer)
+  }
 
+  getDataForRendered(token) {
+    return Promise.allSettled([ this.getUserInfo(token), this.getSavedMovies(token) ])
+  }
 
+  // В данных одного из фильмов, приходящих с API Beat-Film, у image значение null,
+  // из-за этого мое API его не пускает.
+  // Поэтому я поставил левую ссылку на картинку для такого случая
+  saveMovie(movieData, token) {
+    const {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      nameRU,
+      nameEN,
+    } = movieData;
+    return fetch(`${this._url}/movies`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image: movieData.image === null ? IMAGE_URL : `${BEATFILM_URL}${movieData.image.url}`,
+        trailer: movieData.trailerLink,
+        thumbnail: movieData.image === null ? IMAGE_URL : `${BEATFILM_URL}${movieData.image.formats.thumbnail.url}`,
+        movieId: movieData.id,
+        nameRU,
+        nameEN,
+      })
+    })
+    .then(this._parseResponseFromServer)
+  }
 
-  // getDataForRendered(token) {
-  //   return Promise.all([ this.getInitialCards(token), this.getUserInfo(token) ])
-  // }
-
-  // addCard(data, token) {
-  //   return fetch(`${this._url}/cards`, {
-  //     method: 'POST',
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //   .then(this._parseResponseFromServer)
-  // }
-
-
-
-
-  // setAvatar(data, token) {
-  //   return fetch(`${this._url}/users/me/avatar`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //   .then(this._parseResponseFromServer)
-  // }
-
-  // deleteCard(id, token) {
-  //   return fetch(`${this._url}/cards/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       authorization: `Bearer ${token}`
-  //     }
-  //   })
-  //   .then(this._parseResponseFromServer)
-  // }
-
-  // changeLikeCardStatus(id, like, token) {
-  //   return fetch(`${this._url}/cards/${id}/likes`, {
-  //     method: like ? 'PUT' : 'DELETE',
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //   .then(this._parseResponseFromServer)
-  // }
+  removeMovie(id, token) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    .then(this._parseResponseFromServer)
+  }
 }
 
 const mainApi = new MainApi({

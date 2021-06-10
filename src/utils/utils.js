@@ -15,11 +15,23 @@ export const setMovies = (searchMovies) => {
 };
 
 export const getMovies = () => {
-  return localStorage.getItem('searchMovies');
+  return JSON.parse(localStorage.getItem('searchMovies'));
 };
 
 export const removeMovies = () => {
   localStorage.removeItem('searchMovies');
+};
+
+export const setUser = (user) => {
+  localStorage.setItem('user', JSON.stringify(user));
+};
+
+export const getUser = () => {
+  return JSON.parse(localStorage.getItem('user'));
+};
+
+export const removeUser = () => {
+  localStorage.removeItem('user');
 };
 
 export const parseResponseFromServer = (res) => {
