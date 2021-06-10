@@ -3,7 +3,7 @@ import './SearchForm.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Container from '../Container/Container';
 
-const SearchForm = ({ onSubmit }) => {
+const SearchForm = ({ onSubmit, isLoading }) => {
   const { values, handleChange, resetForm } = useFormAndValidation();
   const [ error, setError ] = React.useState('');
   const [ checked, setChecked ] = React.useState(false);
@@ -64,6 +64,7 @@ const SearchForm = ({ onSubmit }) => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             required
+            disabled={isLoading}
           />
           <label htmlFor='short-films' className='search__label'>
             <input
@@ -72,6 +73,7 @@ const SearchForm = ({ onSubmit }) => {
               className='search__checkbox'
               name='short-films'
               onChange={handleChecked}
+              disabled={isLoading}
             />
             <span className='search__pseudo-checkbox' />
             <span className='search__label-text'>Короткометражки</span>

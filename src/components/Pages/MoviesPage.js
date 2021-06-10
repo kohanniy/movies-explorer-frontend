@@ -25,6 +25,7 @@ const MoviesPage = (props) => {
       <PageMainContent>
         <SearchForm
           onSubmit={onSubmit}
+          isLoading={isLoading}
         />
         <MoviesCardList
           isLoading={isLoading}

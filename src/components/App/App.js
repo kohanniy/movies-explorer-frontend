@@ -30,8 +30,8 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { getAllMovies } from '../../utils/MoviesApi';
 
 const App = () => {
-  const [ isHomePage, setIsHomePage ] = React.useState();
-  const [ isAuthPage, setIsAuthPage ] = React.useState();
+  const [ isHomePage, setIsHomePage ] = React.useState(false);
+  const [ isAuthPage, setIsAuthPage ] = React.useState(false);
   const [ loggedIn, setLoggedIn ] = React.useState(false);
   const [ applicationLinks, setApplicationLinks ] = React.useState(moviesLinks);
   const [ navOpened, setNavOpened ] = React.useState(false);
@@ -41,9 +41,9 @@ const App = () => {
   const [ searchMovies, setSearchMovies ] = React.useState([]);
   const [ searchResultMsg, setSearchResultMsg ] = React.useState('');
   const [ searchSavedMoviesResultMsg, setSavedMoviesResultMsg ] = React.useState('');
-  const [ numSearchMoviesDisplay, setNumSearchMoviesDisplay ] = React.useState();
-  const [ numSearcMoviesAddedDisplay, setNumSearcMoviesAddedDisplay ] = React.useState();
-  const [ moreButtonShow, setMoreButtonShow ] = React.useState();
+  const [ numSearchMoviesDisplay, setNumSearchMoviesDisplay ] = React.useState(0);
+  const [ numSearcMoviesAddedDisplay, setNumSearcMoviesAddedDisplay ] = React.useState(0);
+  const [ moreButtonShow, setMoreButtonShow ] = React.useState(false);
   const [ savedMovies, setSavedMovies ] = React.useState([]);
   const [ isInfoPopupOpen, setIsInfoPopupOpen ] = React.useState(false);
   const [ successfulUpdate, setSuccessfulUpdate ] = React.useState({});
@@ -597,6 +597,7 @@ const App = () => {
           onClosePopup={closePopup}
           result={failSavingOrDeletingMovie}
           onSubmit={handleSearchSavedMovies}
+          isLoading={isLoading}
         />
         <ProtectedRoute
           header={header}
