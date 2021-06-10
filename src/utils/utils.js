@@ -62,7 +62,7 @@ export const getTimeFromMin = (min) => {
     return `${hours}:${minutes}`;
 };
 
-export const stopPropagation = (e) => {
+export function stopPropagation(e) {
   e.stopPropagation();
 };
 

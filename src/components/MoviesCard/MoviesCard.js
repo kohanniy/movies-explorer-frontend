@@ -13,7 +13,7 @@ const MoviesCard = (props) => {
 
   let isSaved;
 
-  const handleButtonClick = () => {
+  function handleButtonClick() {
     onButtonClick(movieData);
   };
 

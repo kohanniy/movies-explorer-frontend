@@ -29,7 +29,7 @@ import {
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { getAllMovies } from '../../utils/MoviesApi';
 
-const App = () => {
+function App() {
   const [ isHomePage, setIsHomePage ] = React.useState(false);
   const [ isAuthPage, setIsAuthPage ] = React.useState(false);
   const [ loggedIn, setLoggedIn ] = React.useState(false);
@@ -74,10 +74,10 @@ const App = () => {
   }, [])
 
   // Определить, фильм сохранен или нет
-  const isMovieSaved = (movie) => savedMovies.some(savedMovie => savedMovie.movieId === movie.id);
+  const isMovieSaved = movie => savedMovies.some(savedMovie => savedMovie.movieId === movie.id);
 
   // Сохранить фильм
-  const saveMovie = (movieData) => {
+  function saveMovie(movieData) {
     const token = getToken();
     mainApi.saveMovie(movieData, token)
       .then((movie) => {
@@ -107,7 +107,7 @@ const App = () => {
   };
 
   // Удалить фильм
-  const removeMovie = (movieData) => {
+  function removeMovie(movieData) {
     const token = getToken();
     const removedMovieId = savedMovies.find(savedMovie => savedMovie.movieId === movieData.id)._id;
     mainApi.removeMovie(removedMovieId, token)
@@ -149,13 +149,13 @@ const App = () => {
       })
   };
 
-  const handleSaveButtonClick = (movieData) => {
+  function handleSaveButtonClick(movieData) {
     const isSaved = isMovieSaved(movieData);
     isSaved ? removeMovie(movieData) : saveMovie(movieData)
   };
 
   // Удалить фильм со страницы сохраненных фильмов
-  const handleRemoveButtonClick = (movieData) => {
+  function handleRemoveButtonClick(movieData) {
     const token = getToken();
      mainApi.removeMovie(movieData._id, token)
       .then((data) => {
@@ -196,15 +196,15 @@ const App = () => {
       })
   }
 
-  const handleOpenNavButtonClick = () => {
+  function handleOpenNavButtonClick() {
     setNavOpened(true);
   }
 
-  const handleCloseNavButtonClick = () => {
+  function handleCloseNavButtonClick() {
     setNavOpened(false);
   };
 
-  const handleLoginFormSubmit = ({ email, password }) => {
+  function handleLoginFormSubmit({ email, password }) {
     setIsLoading(true);
     mainApi.login(email, password)
       .then((data) => {
@@ -239,7 +239,7 @@ const App = () => {
       })
   };
 
-  const handleRegisterFormSubmit = ({ email, password, name }) => {
+  function handleRegisterFormSubmit({ email, password, name }) {
     setIsLoading(!isLoading);
     mainApi.register(email, password, name)
       .then((data) => {
@@ -269,7 +269,7 @@ const App = () => {
       })
   };
 
-  const handleUpdateUser = ({name, email}) => {
+  function handleUpdateUser({name, email}) {
     const token = getToken();
     setIsLoading(!isLoading);
     mainApi.updateUserInfo({name, email}, token)
@@ -307,16 +307,16 @@ const App = () => {
       })
   };
 
-  const handleSignoutButtonClick = () => {
+  function handleSignoutButtonClick() {
     exitAndDeleteData();
     history.push('/');
   };
 
-  const handleGoBackButtonClick = () => {
+  function handleGoBackButtonClick() {
     history.goBack();
   };
 
-  const handleSearchMovies = (values) => {
+  function handleSearchMovies(values) {
     const { query, checked } = values;
     const regExpQuery = new RegExp(query, 'gi');
 
@@ -370,7 +370,7 @@ const App = () => {
         isSavedMoviesPage
           ? setSavedMovies(shortMovies.slice(0, numSearchMoviesDisplay))
           : setSearchMovies(shortMovies.slice(0, numSearchMoviesDisplay))
-        
+
         shortMovies.length <= numSearchMoviesDisplay
             ? setMoreButtonShow(false)
             : setMoreButtonShow(true)
@@ -386,7 +386,7 @@ const App = () => {
     }
   }
 
-  const handleSearchSavedMovies = (values) => {
+  function handleSearchSavedMovies(values) {
     const { query, checked } = values;
     const regExpQuery = new RegExp(query, 'gi');
     const userSavedMovies = getStoredMovies();
@@ -412,7 +412,7 @@ const App = () => {
       }
   };
 
-  const handleMoreButtonClick = () => {
+  function handleMoreButtonClick() {
     const movies = getMovies();
     setSearchMovies(movies.slice(0, searchMovies.length + numSearcMoviesAddedDisplay));
 
@@ -564,7 +564,7 @@ const App = () => {
 
   // Зкрытие попапа по Esc
   React.useEffect(() => {
-    const handlePopupsEscClose = (e) => {
+    function handlePopupsEscClose(e) {
       if (e.key === 'Escape') {
         closePopup();
       }

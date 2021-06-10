@@ -11,13 +11,16 @@ const ApplicationNavigation = (props) => {
     handleCloseNavButtonClick,
     navOpened,
   } = props;
+
   const classes = {
     ul: 'app-nav__list',
     li: 'app-nav__item',
     link: 'app-nav__link',
     linkActive: 'app-nav__link_active'
   };
+
   let classesNav = 'app-nav';
+  
   const closeButtonClasses = 'app-nav__close-button';
 
   if (isHomePage && windowWidth > 768) classesNav += ' app-nav_is-home';

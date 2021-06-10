@@ -27,12 +27,12 @@ const AuthSection = (props) => {
     resetServerErrorMsg();
   }, [resetForm, resetServerErrorMsg]);
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     onFormSubmit(values);
   }
 
-  const handleFocus = (e) => {
+  function handleFocus(e) {
     e.preventDefault();
     resetServerErrorMsg();
   }

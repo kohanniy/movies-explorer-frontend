@@ -24,9 +24,7 @@ const SearchForm = (props) => {
     resetForm();
   }, [resetForm]);
 
-
-
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     if (!query) {
       setError('Нужно ввести ключевое слово');
@@ -35,13 +33,13 @@ const SearchForm = (props) => {
     }
   };
 
-  const handleFocus = () => {
+  function handleFocus() {
     setTimeout(() => {
       setError('');
     }, 500);
   };
 
-  const handleBlur = () => {
+  function handleBlur() {
     setError('');
   }
 
