@@ -34,6 +34,18 @@ export const removeUser = () => {
   localStorage.removeItem('user');
 };
 
+export const setStoredMovies = (savedMovies) => {
+  localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+};
+
+export const getStoredMovies = () => {
+  return JSON.parse(localStorage.getItem('savedMovies'));
+};
+
+export const removeStoredMovies = () => {
+  localStorage.removeItem('savedMovies');
+};
+
 export const parseResponseFromServer = (res) => {
   if (res.ok) {
     return res.json();

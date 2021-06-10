@@ -12,12 +12,15 @@ const SavedMoviesPage = (props) => {
     isPopupOpen,
     onClosePopup,
     result,
+    onSubmit,
   } = props;
 
   return (
     <>
       <PageMainContent>
-        <SearchForm/>
+        <SearchForm
+          onSubmit={onSubmit}
+        />
         <MoviesCardList
           savedMoviesPage={true}
           resultMsg={resultMsg}
