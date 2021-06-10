@@ -19,6 +19,9 @@ import {
   setMovies,
   getMovies,
   removeMovies,
+  setStoredMovies,
+  getStoredMovies,
+  removeStoredMovies,
   setUser,
   getUser,
   removeUser,
@@ -37,7 +40,7 @@ const App = () => {
   const [ currentUser, setCurrentUser ] = React.useState({});
   const [ searchMovies, setSearchMovies ] = React.useState([]);
   const [ searchResultMsg, setSearchResultMsg ] = React.useState('');
-  const [ searchSavedMoviesResultMsg, setSearchMoviesResultMsg ] = React.useState('');
+  const [ searchSavedMoviesResultMsg, setSavedMoviesResultMsg ] = React.useState('');
   const [ numSearchMoviesDisplay, setNumSearchMoviesDisplay ] = React.useState();
   const [ numSearcMoviesAddedDisplay, setNumSearcMoviesAddedDisplay ] = React.useState();
   const [ moreButtonShow, setMoreButtonShow ] = React.useState();
@@ -47,6 +50,16 @@ const App = () => {
   const windowWidth = useWindowWidth();
   const location = useLocation();
   const history = useHistory();
+
+  // Удалить все данные при выходе
+  const exitAndDeleteData = () => {
+    setLoggedIn(false);
+    removeToken();
+    removeMovies();
+    removeUser();
+    removeStoredMovies();
+    setSearchMovies([]);
+  }
 
   // Сбросить сообщения об ошибках от сервера
   const resetServerErrorMsg = React.useCallback((newMsg = '') => {
@@ -67,6 +80,8 @@ const App = () => {
     mainApi.saveMovie(movieData, token)
       .then((movie) => {
         setSavedMovies([...savedMovies, movie]);
+        setStoredMovies([...savedMovies, movie]);
+        setSavedMoviesResultMsg('');
       })
       .catch((err) => {
         setIsInfoPopupOpen(true);
@@ -90,6 +105,10 @@ const App = () => {
         if (data) {
           const newSavedMovies = savedMovies.filter(savedMovie => savedMovie._id !== removedMovieId);
           setSavedMovies(newSavedMovies);
+          setStoredMovies(newSavedMovies);
+          if (getStoredMovies().length === 0) {
+            setSavedMoviesResultMsg('У вас нет сохраненных фильмов');
+          }
         }
       })
       .catch((err) => {
@@ -121,6 +140,10 @@ const App = () => {
         if (data) {
           const newSavedMovies = savedMovies.filter(savedMovie => savedMovie._id !== movieData._id);
           setSavedMovies(newSavedMovies);
+          setStoredMovies(newSavedMovies);
+          if (getStoredMovies().length === 0) {
+            setSavedMoviesResultMsg('У вас нет сохраненных фильмов');
+          }
         }
       })
       .catch((err) => {
@@ -242,11 +265,7 @@ const App = () => {
   };
 
   const handleSignoutButtonClick = () => {
-    setLoggedIn(false);
-    removeToken();
-    removeMovies();
-    removeUser();
-    setSearchMovies(null);
+    exitAndDeleteData();
     history.push('/');
   };
 
@@ -273,8 +292,8 @@ const App = () => {
             item.duration <= 40);
 
           searchShortMoviesResult.length === 0
-          ? setSearchResultMsg('Ничего не найдено')
-          : setSearchResultMsg('')
+            ? setSearchResultMsg('Ничего не найдено')
+            : setSearchResultMsg('')
 
           searchShortMoviesResult.length <= numSearcMoviesAddedDisplay
             ? setMoreButtonShow(false)
@@ -297,6 +316,32 @@ const App = () => {
       .finally(() => {
         setIsLoading(false);
       })
+  };
+
+  const handleSearchSavedMovies = (values) => {
+    const { query, checked } = values;
+    const regExpQuery = new RegExp(query, 'gi');
+    const userSavedMovies = getStoredMovies();
+
+    const searchMoviesResult = userSavedMovies.filter((movie) =>
+          regExpQuery.test(movie.nameRU) || regExpQuery.test(movie.nameEN));
+
+    searchMoviesResult.length === 0
+      ? setSavedMoviesResultMsg('Ничего не найдено')
+      : setSavedMoviesResultMsg('')
+
+    if (checked) {
+      const searchShortMoviesResult = searchMoviesResult.filter((item) =>
+        item.duration <= 40);
+
+      searchShortMoviesResult.length === 0
+        ? setSavedMoviesResultMsg('Ничего не найдено')
+        : setSavedMoviesResultMsg('')
+
+      setSavedMovies(searchShortMoviesResult);
+    } else {
+        setSavedMovies(searchMoviesResult);
+      }
   };
 
   const handleMoreButtonClick = () => {
@@ -371,10 +416,7 @@ const App = () => {
           }
         })
         .catch((err) => {
-          setLoggedIn(false);
-          removeToken();
-          removeUser();
-          removeMovies();
+          exitAndDeleteData();
           history.push('/signin');
           switch (err.status){
             case 404:
@@ -404,12 +446,15 @@ const App = () => {
               const user = getUser();
               const userMovies = movies.filter(movie => movie.owner === user._id);
               setSavedMovies(userMovies);
-              userMovies === 0
-                ? setSearchMoviesResultMsg('У вас еще нет сохраненных фильмов')
-                : setSearchMoviesResultMsg('')
+              setStoredMovies(userMovies);
+              userMovies.length === 0
+                ? setSavedMoviesResultMsg('У вас нет сохраненных фильмов')
+                : setSavedMoviesResultMsg('')
             }
 
             if (index === 0 && result.status === 'rejected') {
+              exitAndDeleteData();
+              history.push('/signin');
               switch (result.reason.status){
                 case 404:
                   setServerErrorMsg('Пользователь не найден');
@@ -421,7 +466,7 @@ const App = () => {
             }
 
             if (index === 1 && result.status === 'rejected') {
-              setSearchMoviesResultMsg('Что-то пошло не так! Попробуйте еще раз');
+              setSavedMoviesResultMsg('Что-то пошло не так! Попробуйте еще раз');
             }
           })
         })
@@ -431,12 +476,20 @@ const App = () => {
       const token = getToken();
       dataForRendered(token);
     }
-  }, [loggedIn]);
+  }, [history, loggedIn]);
 
-  // Сброс сообщения о результатах поиска
   React.useEffect(() => {
     setSearchResultMsg('');
-  }, []);
+    const savedMovies = getStoredMovies();
+    if (savedMovies) {
+      if (savedMovies.length === 0) {
+        setSavedMoviesResultMsg('У вас нет сохраненных фильмов');
+      } else {
+        setSavedMoviesResultMsg('');
+        setSavedMovies(savedMovies);
+      }
+    }
+  }, [location.pathname]);
 
   // Зкрытие попапа по Esc
   React.useEffect(() => {
@@ -498,6 +551,7 @@ const App = () => {
           isPopupOpen={isInfoPopupOpen}
           onClosePopup={closePopup}
           result={serverErrorMsg}
+          onSubmit={handleSearchSavedMovies}
         />
         <ProtectedRoute
           header={header}
