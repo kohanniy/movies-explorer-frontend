@@ -23,10 +23,9 @@ const ProfileSection = (props) => {
 
   React.useEffect(() => {
     resetForm();
-    resetServerErrorMsg();
     setValues(currentUser);
     setIsValid(true);
-  }, [resetForm, currentUser, setValues, setIsValid, resetServerErrorMsg]);
+  }, [resetForm, currentUser, setValues, setIsValid]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
