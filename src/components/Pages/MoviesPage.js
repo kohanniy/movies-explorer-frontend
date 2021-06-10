@@ -18,6 +18,7 @@ const MoviesPage = (props) => {
     isPopupOpen,
     onClosePopup,
     result,
+    onChangeCheckbox,
   } = props;
 
   return (
@@ -26,6 +27,8 @@ const MoviesPage = (props) => {
         <SearchForm
           onSubmit={onSubmit}
           isLoading={isLoading}
+          onChangeCheckbox={onChangeCheckbox}
+          savedMoviesPage={false}
         />
         <MoviesCardList
           isLoading={isLoading}

@@ -3,7 +3,14 @@ import './SearchForm.css';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import Container from '../Container/Container';
 
-const SearchForm = ({ onSubmit, isLoading }) => {
+const SearchForm = (props) => {
+  const {
+    onSubmit,
+    isLoading,
+    onChangeCheckbox,
+    savedMoviesPage,
+  } = props;
+
   const { values, handleChange, resetForm } = useFormAndValidation();
   const [ error, setError ] = React.useState('');
   const [ checked, setChecked ] = React.useState(false);
@@ -17,13 +24,14 @@ const SearchForm = ({ onSubmit, isLoading }) => {
     resetForm();
   }, [resetForm]);
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!query) {
       setError('Нужно ввести ключевое слово');
     } else {
       onSubmit({query, checked});
-      setError('')
     }
   };
 
@@ -37,8 +45,9 @@ const SearchForm = ({ onSubmit, isLoading }) => {
     setError('');
   }
 
-  const handleChecked = () => {
+  function handleChecked(e) {
     setChecked(!checked);
+    onChangeCheckbox(e, savedMoviesPage);
   }
 
   return (

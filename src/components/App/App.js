@@ -91,7 +91,7 @@ const App = () => {
           case 400:
             setFailSavingOrDeletingMovie({
               ...failSavingOrDeletingMovie,
-              message: 'К сожалению этот фильм сохранить не получиться',
+              message: 'К сожалению этот фильм сохранить не получится',
               success: false
             });
             break;
@@ -323,34 +323,35 @@ const App = () => {
     setIsLoading(true);
     getAllMovies()
       .then((movies) => {
-        const searchMoviesResult = movies.filter((movie) =>
+        const result = movies.filter((movie) =>
           regExpQuery.test(movie.nameRU) || regExpQuery.test(movie.nameEN));
 
-        searchMoviesResult.length === 0
+        setMovies(result);
+
+        result.length === 0
           ? setSearchResultMsg('Ничего не найдено')
           : setSearchResultMsg('')
 
         if (checked) {
-          const searchShortMoviesResult = searchMoviesResult.filter((item) =>
+          const searchMovies = getMovies();
+          const shortMoviesResult = searchMovies.filter((item) =>
             item.duration <= 40);
 
-          searchShortMoviesResult.length === 0
+          shortMoviesResult.length === 0
             ? setSearchResultMsg('Ничего не найдено')
             : setSearchResultMsg('')
 
-          searchShortMoviesResult.length <= numSearcMoviesAddedDisplay
+          shortMoviesResult.length <= numSearchMoviesDisplay
             ? setMoreButtonShow(false)
             : setMoreButtonShow(true)
 
-          setSearchMovies(searchShortMoviesResult.slice(0, numSearchMoviesDisplay));
-          setMovies(searchShortMoviesResult);
+          setSearchMovies(shortMoviesResult.slice(0, numSearchMoviesDisplay));
         } else {
-          searchMoviesResult.length <= numSearcMoviesAddedDisplay
+          result.length <= numSearchMoviesDisplay
             ? setMoreButtonShow(false)
             : setMoreButtonShow(true)
 
-          setSearchMovies(searchMoviesResult.slice(0, numSearchMoviesDisplay));
-          setMovies(searchMoviesResult);
+          setSearchMovies(result.slice(0, numSearchMoviesDisplay));
         }
       })
       .catch(() => {
@@ -360,6 +361,30 @@ const App = () => {
         setIsLoading(false);
       })
   };
+
+  function onChangeCheckbox(e, isSavedMoviesPage) {
+    const movies = isSavedMoviesPage ? getStoredMovies() : getMovies();
+    if (movies) {
+      if (e.target.checked) {
+        const shortMovies = movies.filter((item) => item.duration <= 40);
+        isSavedMoviesPage
+          ? setSavedMovies(shortMovies.slice(0, numSearchMoviesDisplay))
+          : setSearchMovies(shortMovies.slice(0, numSearchMoviesDisplay))
+        
+        shortMovies.length <= numSearchMoviesDisplay
+            ? setMoreButtonShow(false)
+            : setMoreButtonShow(true)
+      } else {
+        isSavedMoviesPage
+          ? setSavedMovies(movies.slice(0, numSearchMoviesDisplay))
+          : setSearchMovies(movies.slice(0, numSearchMoviesDisplay))
+
+        movies.length <= numSearchMoviesDisplay
+            ? setMoreButtonShow(false)
+            : setMoreButtonShow(true)
+      }
+    }
+  }
 
   const handleSearchSavedMovies = (values) => {
     const { query, checked } = values;
@@ -400,12 +425,13 @@ const App = () => {
   React.useEffect(() => {
     const movies = getMovies();
     if (movies) {
-      movies.length <= numSearcMoviesAddedDisplay
+
+      movies.length <= numSearchMoviesDisplay
         ? setMoreButtonShow(false)
         : setMoreButtonShow(true)
       setSearchMovies(movies.slice(0, numSearchMoviesDisplay));
     }
-  }, [numSearcMoviesAddedDisplay, numSearchMoviesDisplay]);
+  }, [numSearchMoviesDisplay, location.pathname]);
 
   // Зависимость количества отображаемых и добавляемых фильмов от размера экрана
   React.useEffect(() => {
@@ -584,6 +610,7 @@ const App = () => {
           isPopupOpen={isInfoPopupOpen}
           onClosePopup={closePopup}
           result={failSavingOrDeletingMovie}
+          onChangeCheckbox={onChangeCheckbox}
         />
         <ProtectedRoute
           header={header}
@@ -598,6 +625,7 @@ const App = () => {
           result={failSavingOrDeletingMovie}
           onSubmit={handleSearchSavedMovies}
           isLoading={isLoading}
+          onChangeCheckbox={onChangeCheckbox}
         />
         <ProtectedRoute
           header={header}
