@@ -1,5 +1,3 @@
-import movieImage from '../images/movie-img.jpg';
-
 export const userLinks = [
   {
     text: 'Регистрация',
@@ -112,49 +110,6 @@ export const practicumLink = {
   link: 'https://praktikum.yandex.ru/web/'
 }
 
-export const moviesCardData = [
-  {
-    name: '33 слова о дизайне sdgsdfgfgsdfgtsrgtyb regrgetetrttetgr',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне sgfdgsdfgdsfgdfsgbhbyt5 54tyb34t5vg345',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-  {
-    name: '33 слова о дизайне',
-    src: movieImage,
-    duration: '1ч42мин'
-  },
-];
-
 export const editProfileInputsData = [
   {
     labelText: 'Имя',
@@ -163,7 +118,6 @@ export const editProfileInputsData = [
     placeholder: 'Введите свое имя',
     minLength: 2,
     maxLength: 30,
-    defaultValue: 'Виталий'
   },
   {
     labelText: 'E-mail',
@@ -172,7 +126,6 @@ export const editProfileInputsData = [
     placeholder: 'Введите новую почту',
     minLength: null,
     maxLength: null,
-    defaultValue: 'gsdgsfgfg@mail.ru'
   },
 ];
 
@@ -184,7 +137,6 @@ export const loginInputsData = [
     placeholder: 'Введите свой email-адрес',
     minLength: null,
     maxLength: null,
-    defaultValue: 'gsdgsfgfg@mail.ru'
   },
   {
     labelText:'Пароль',
@@ -193,7 +145,6 @@ export const loginInputsData = [
     placeholder: 'Введите пароль',
     minLength: 8,
     maxLength: null,
-    defaultValue: null
   },
 ];
 
@@ -204,7 +155,6 @@ export const additionalInputDataForRegistration = {
     placeholder: 'Введите свое имя',
     minLength: 2,
     maxLength: 30,
-    defaultValue: 'Виталий'
 }
 
 export const loginSectionData = {
@@ -230,3 +180,7 @@ export const formNames = {
 }
 
 export const regExpForCheckInputName = '^[А-Яа-яa-zA-ZЁё\\-\\s]+$';
+
+export const BEATFILM_URL = 'https://api.nomoreparties.co';
+
+export const IMAGE_URL = 'https://images.unsplash.com/photo-1622495892577-2d07f607968e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80';

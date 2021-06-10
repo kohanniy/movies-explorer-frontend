@@ -8,9 +8,12 @@ const MoviesPage = (props) => {
     onSubmit,
     moviesData,
     isLoading,
-    searchResultMsg,
+    resultMsg,
     handleMoreButtonClick,
     moreButtonShow,
+    handleSaveMovieButtonClick,
+    isMovieSaved,
+    onButtonClick,
   } = props;
 
   return (
@@ -23,9 +26,12 @@ const MoviesPage = (props) => {
           isLoading={isLoading}
           moviesData={moviesData}
           savedMoviesPage={false}
-          searchResultMsg={searchResultMsg}
+          resultMsg={resultMsg}
           onMoreButtonClick={handleMoreButtonClick}
           moreButtonShow={moreButtonShow}
+          handleSaveMovieButtonClick={handleSaveMovieButtonClick}
+          isMovieSaved={isMovieSaved}
+          onButtonClick={onButtonClick}
         />
       </PageMainContent>
       <Footer />

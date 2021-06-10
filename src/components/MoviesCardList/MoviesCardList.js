@@ -10,75 +10,13 @@ const MoviesCardList = (props) => {
     savedMoviesPage,
     moviesData,
     isLoading,
-    searchResultMsg,
+    resultMsg,
     onMoreButtonClick,
     moreButtonShow,
+    handleSaveMovieButtonClick,
+    isMovieSaved,
+    onButtonClick,
   } = props;
-
-  // const [ defaultNumberOfCards, setDefaultNumberOfCards ] = React.useState();
-  // const [ numberOfAddedCards, setNumberOfAddedCards ] = React.useState();
-  // const [ cardsList, setCardsList ] = React.useState([]);
-
-  // const [renderedMoviesList, setRenderedMoviesList] = React.useState([]);
-  // const [isButtonActive, setIsButtonActive] = React.useState(false);
-  // const [renderedCardsCount, setRenderedCardsCount] = React.useState(12);
-  // const [addedCardsCount, setAddedCardsCount] = React.useState(0);
-
-  // const location = useLocation().pathname;
-
-
-
-  // React.useEffect(() => {
-  //   if (savedMoviesPage) {
-  //     setCardsList(moviesData);
-  //   } else {
-  //     setCardsList(moviesData.slice(0, defaultNumberOfCards));
-  //   }
-  // }, [defaultNumberOfCards, moviesData, savedMoviesPage]);
-
-  // React.useState(() => {
-  //   renderedCards();
-  // }, [windowWidth]);
-
-
-
-  // function cardsCount() {
-  //   if (windowWidth >= 1100) {
-  //     setRenderedCardsCount(12);
-  //     setAddedCardsCount(3);
-  //   } else if (windowWidth < 1100 && windowWidth > 600) {
-  //     setRenderedCardsCount(8);
-  //     setAddedCardsCount(2);
-  //   } else {
-  //     setRenderedCardsCount(5);
-  //     setAddedCardsCount(2);
-  //   }
-  // }
-
-  // function handleMoreClick() {
-  //   setRenderedMoviesList(movies.slice(0, renderedMoviesList.length + addedCardsCount));
-  //   if (renderedMoviesList.length >= movies.length - addedCardsCount) {
-  //     setIsButtonActive(false);
-  //   }
-  // }
-
-
-
-  // React.useEffect(() => {
-  //   if (location === '/movies') {
-  //     setRenderedMoviesList(movies.slice(0, renderedCardsCount));
-  //     if (movies.length <= renderedCardsCount) {
-  //       setIsButtonActive(false);
-  //     } else {
-  //       setIsButtonActive(true);
-  //     }
-  //   } else {
-  //     setRenderedMoviesList(movies);
-  //     setIsButtonActive(false);
-  //   }
-  // }, [movies]);
-
-
 
   return (
     <section className='cards'>
@@ -92,9 +30,9 @@ const MoviesCardList = (props) => {
                 ? <Preloader/>
                 : <>
                     {
-                      searchResultMsg
+                      resultMsg
                         ? <p className='cards__not-found'>
-                            {searchResultMsg}
+                            {resultMsg}
                           </p>
                         : null
                     }
@@ -110,6 +48,9 @@ const MoviesCardList = (props) => {
                                       key={index}
                                       movieData={movie}
                                       savedMoviesPage={savedMoviesPage}
+                                      onSaveButtonClick={handleSaveMovieButtonClick}
+                                      isMovieSaved={isMovieSaved}
+                                      onButtonClick={onButtonClick}
                                     />
                                   )
                                 )

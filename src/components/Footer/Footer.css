@@ -40,6 +40,7 @@
   padding: 0;
   list-style: none;
   display: flex;
+  justify-self: end;
 }
 
 .footer__item {
@@ -89,6 +90,7 @@
 
   .footer__list {
     flex-direction: column;
+    justify-self: center;
   }
 
   .footer__item {

@@ -21,6 +21,6 @@ const useWindowWidth = () => {
   }, [debounceHandleResize]);
 
   return windowWidth;
-}
+};
 
 export default useWindowWidth;

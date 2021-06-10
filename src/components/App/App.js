@@ -19,6 +19,9 @@ import {
   setMovies,
   getMovies,
   removeMovies,
+  setUser,
+  getUser,
+  removeUser,
 } from '../../utils/utils';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { getAllMovies } from '../../utils/MoviesApi';
@@ -32,19 +35,75 @@ const App = () => {
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ serverErrorMsg, setServerErrorMsg ] = React.useState('');
   const [ currentUser, setCurrentUser ] = React.useState({});
-  const [ searchMovies, setSearchMovies ] = React.useState();
+  const [ searchMovies, setSearchMovies ] = React.useState([]);
   const [ searchResultMsg, setSearchResultMsg ] = React.useState('');
+  const [ searchSavedMoviesResultMsg, setSearchMoviesResultMsg ] = React.useState('');
   const [ numSearchMoviesDisplay, setNumSearchMoviesDisplay ] = React.useState();
   const [ numSearcMoviesAddedDisplay, setNumSearcMoviesAddedDisplay ] = React.useState();
   const [ moreButtonShow, setMoreButtonShow ] = React.useState();
+  const [ savedMovies, setSavedMovies ] = React.useState([]);
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
   const history = useHistory();
 
+  // Сбросить сообщения об ошибках от сервера
   const resetServerErrorMsg = React.useCallback((newMsg = '') => {
     setServerErrorMsg(newMsg);
   }, [setServerErrorMsg]);
+
+  // Определить, фильм сохранен или нет
+  const isMovieSaved = (movie) => savedMovies.some(savedMovie => savedMovie.movieId === movie.id);
+
+  // Сохранить фильм
+  const saveMovie = (movieData) => {
+    const token = getToken();
+    console.log(movieData);
+    mainApi.saveMovie(movieData, token)
+      .then((movie) => {
+        setSavedMovies([...savedMovies, movie]);
+      })
+      .catch((err) => {
+        switch(err.status) {
+          case 400:
+            setServerErrorMsg('В одном из полей переданы неверные данные');
+            break;
+          default:
+            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            break;
+        };
+      })
+  };
+
+  // Удалить фильм
+  const removeMovie = (movieData) => {
+    const token = getToken();
+    const removedMovieId = savedMovies.find(savedMovie => savedMovie.movieId === movieData.id)._id;
+    mainApi.removeMovie(removedMovieId, token)
+      .then((data) => {
+        if (data) {
+          const newSavedMovies = savedMovies.filter(savedMovie => savedMovie._id !== removedMovieId);
+          setSavedMovies(newSavedMovies);
+        }
+      })
+  };
+
+  const handleSaveButtonClick = (movieData) => {
+    const isSaved = isMovieSaved(movieData);
+    isSaved ? removeMovie(movieData) : saveMovie(movieData)
+  };
+
+  // Удалить фильм со страницы сохраненных фильмов
+  const handleRemoveButtonClick = (movieData) => {
+    const token = getToken();
+     mainApi.removeMovie(movieData._id, token)
+      .then((data) => {
+        if (data) {
+          const newSavedMovies = savedMovies.filter(savedMovie => savedMovie._id !== movieData._id);
+          setSavedMovies(newSavedMovies);
+        }
+      })
+  }
 
   const handleOpenNavButtonClick = () => {
     setNavOpened(true);
@@ -62,26 +121,6 @@ const App = () => {
           setToken(data.token);
           setLoggedIn(true);
           history.push('/movies');
-
-          mainApi.getUserInfo(data.token)
-            .then((data) => {
-              setCurrentUser(data);
-            })
-            .catch((err) => {
-              history.push('/signin');
-              removeToken();
-              switch (err.status) {
-                case 401:
-                  setServerErrorMsg('Токен не передан или передан не в том формате. Заполните форму входа');
-                  break;
-                case 404:
-                  setServerErrorMsg('Пользователь не найден. Заполните форму входа или зарегистрируйтесь');
-                  break;
-                default:
-                  setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
-                  break;
-              };
-            })
         }
       })
       .catch((err) => {
@@ -113,7 +152,7 @@ const App = () => {
     mainApi.register(email, password, name)
       .then((data) => {
         if (data) {
-          handleLoginFormSubmit({ email, password });
+          handleLoginFormSubmit(data);
         }
       })
       .catch((err) => {
@@ -169,9 +208,10 @@ const App = () => {
   };
 
   const handleSignoutButtonClick = () => {
-    removeToken();
     setLoggedIn(false);
+    removeToken();
     removeMovies();
+    removeUser();
     setSearchMovies(null);
     history.push('/');
   };
@@ -226,23 +266,26 @@ const App = () => {
   };
 
   const handleMoreButtonClick = () => {
-    const movies = JSON.parse(getMovies());
+    const movies = getMovies();
     setSearchMovies(movies.slice(0, searchMovies.length + numSearcMoviesAddedDisplay));
 
     searchMovies.length >= movies.length - numSearcMoviesAddedDisplay
       ? setMoreButtonShow(false)
       : setMoreButtonShow(true)
-  }
+  };
 
-
+  // Отрисовка искомых фильмов из localStorage
   React.useEffect(() => {
-    const movies = JSON.parse(getMovies());
-    movies.length <= numSearcMoviesAddedDisplay
-      ? setMoreButtonShow(false)
-      : setMoreButtonShow(true)
-    setSearchMovies(movies.slice(0, numSearchMoviesDisplay));
+    const movies = getMovies();
+    if (movies) {
+      movies.length <= numSearcMoviesAddedDisplay
+        ? setMoreButtonShow(false)
+        : setMoreButtonShow(true)
+      setSearchMovies(movies.slice(0, numSearchMoviesDisplay));
+    }
   }, [numSearcMoviesAddedDisplay, numSearchMoviesDisplay]);
 
+  // Зависимость количества отображаемых и добавляемых фильмов от размера экрана
   React.useEffect(() => {
     if (windowWidth > 1024) {
       setNumSearchMoviesDisplay(12);
@@ -268,6 +311,7 @@ const App = () => {
       : setApplicationLinks(moviesLinks)
   }, [windowWidth]);
 
+  // Определение главной страницы и страниц авторизации
   React.useEffect(() => {
     location.pathname === '/'
       ? setIsHomePage(true)
@@ -278,39 +322,84 @@ const App = () => {
       : setIsAuthPage(false);
   }, [location.pathname]);
 
+  // Проверка токена при заходе на сайт
   React.useEffect(() => {
-    const tokenCheck = () => {
-      if (getToken()){
-        const path = location.pathname;
-        const token = getToken();
-        mainApi.getUserInfo(token)
-          .then((data) => {
-            if (data) {
-              setCurrentUser(data);
-              setLoggedIn(true);
-              history.push(path);
-            }
-          })
-          .catch((err) => {
-            history.push('/signin');
-            removeToken();
-            switch (err.status) {
-              case 401:
-                setServerErrorMsg('Токен не передан или передан не в том формате. Заполните форму входа');
-                break;
-              case 404:
-                setServerErrorMsg('Пользователь не найден. Заполните форму входа или зарегистрируйтесь');
-                break;
-              default:
-                setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
-                break;
-            };
-          })
-      }
-    };
-    tokenCheck();
+    const token = getToken();
+    const path = location.pathname;
+    if (token) {
+      mainApi.getUserInfo(token)
+        .then((data) => {
+          if (data) {
+            setLoggedIn(true);
+            path === '/signin' || path === '/signup'
+              ? history.push('/movies')
+              : history.push(path)
+          }
+        })
+        .catch((err) => {
+          setLoggedIn(false);
+          removeToken();
+          removeUser();
+          removeMovies();
+          history.push('/signin');
+          switch (err.status){
+            case 404:
+              setServerErrorMsg('Пользователь не найден. Войдите в приложение');
+              break;
+            default:
+              setServerErrorMsg('Что-то пошло не так! Попробуйте войти в приложение заново');
+              break;
+          };
+        })
+    }
   }, []);
 
+  // Получение данных о пользователе и сохраненных фильмах
+  React.useEffect(() => {
+    const dataForRendered = (token) => {
+      mainApi.getDataForRendered(token)
+        .then((results) => {
+          results.forEach((result, index) => {
+            if (index === 0 && result.status === 'fulfilled') {
+              setCurrentUser(result.value);
+              setUser(result.value);
+            }
+
+            if (index === 1 && result.status === 'fulfilled') {
+              const movies = result.value;
+              const user = getUser();
+              const userMovies = movies.filter(movie => movie.owner === user._id);
+              setSavedMovies(userMovies);
+              userMovies === 0
+                ? setSearchMoviesResultMsg('У вас еще нет сохраненных фильмов')
+                : setSearchMoviesResultMsg('')
+            }
+
+            if (index === 0 && result.status === 'rejected') {
+              switch (result.reason.status){
+                case 404:
+                  setServerErrorMsg('Пользователь не найден');
+                  break;
+                default:
+                  setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+                  break;
+              };
+            }
+
+            if (index === 1 && result.status === 'rejected') {
+              setSearchMoviesResultMsg('Что-то пошло не так! Попробуйте еще раз');
+            }
+          })
+        })
+    };
+
+    if (loggedIn) {
+      const token = getToken();
+      dataForRendered(token);
+    }
+  }, [loggedIn]);
+
+  // Сброс сообщения о результатах поиска
   React.useEffect(() => {
     setSearchResultMsg('');
   }, []);
@@ -341,15 +430,20 @@ const App = () => {
           onSubmit={handleSearchMovies}
           moviesData={searchMovies}
           isLoading={isLoading}
-          searchResultMsg={searchResultMsg}
+          resultMsg={searchResultMsg}
           handleMoreButtonClick={handleMoreButtonClick}
           moreButtonShow={moreButtonShow}
+          onButtonClick={handleSaveButtonClick}
+          isMovieSaved={isMovieSaved}
         />
         <ProtectedRoute
           header={header}
           path='/saved-movies'
           component={SavedMoviesPage}
           loggedIn={loggedIn}
+          resultMsg={searchSavedMoviesResultMsg}
+          moviesData={savedMovies}
+          onButtonClick={handleRemoveButtonClick}
         />
         <ProtectedRoute
           header={header}
