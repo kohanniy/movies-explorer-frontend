@@ -2,6 +2,7 @@ import PageMainContent from '../PageMainContent/PageMainContent';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
+import InfoPopup from '../InfoPopup/InfoPopup';
 
 const MoviesPage = (props) => {
   const {
@@ -14,6 +15,9 @@ const MoviesPage = (props) => {
     handleSaveMovieButtonClick,
     isMovieSaved,
     onButtonClick,
+    isPopupOpen,
+    onClosePopup,
+    result,
   } = props;
 
   return (
@@ -35,6 +39,11 @@ const MoviesPage = (props) => {
         />
       </PageMainContent>
       <Footer />
+      <InfoPopup
+        isOpen={isPopupOpen}
+        onClose={onClosePopup}
+        result={result}
+      />
     </>
   );
 }
