@@ -239,12 +239,13 @@ function App() {
       })
   };
 
-  function handleRegisterFormSubmit({ email, password, name }) {
+  function handleRegisterFormSubmit(userData) {
+    const { email, password, name } = userData;
     setIsLoading(!isLoading);
     mainApi.register(email, password, name)
       .then((data) => {
         if (data) {
-          handleLoginFormSubmit(data);
+          handleLoginFormSubmit({ email, password });
           setServerErrorMsg('');
         }
       })
