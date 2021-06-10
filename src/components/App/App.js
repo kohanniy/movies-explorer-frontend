@@ -410,7 +410,7 @@ const App = () => {
   // Зависимость количества отображаемых и добавляемых фильмов от размера экрана
   React.useEffect(() => {
     if (windowWidth > 1024) {
-      setNumSearchMoviesDisplay(12);
+      setNumSearchMoviesDisplay(16);
       setNumSearcMoviesAddedDisplay(4);
     }
 

@@ -51,7 +51,7 @@ const ProfileSection = (props) => {
           buttonClassName='profile__button profile__button_type_submit'
           buttonText={isLoading ? 'Данные отправляются...' : 'Редактировать'}
           onSubmit={handleSubmit}
-          isDisabled={!isValid}
+          isDisabled={!isValid || (currentUser.name === values.name && currentUser.email === values.email)}
           serverErrorMsg={serverErrorMsg}
         >
           {
