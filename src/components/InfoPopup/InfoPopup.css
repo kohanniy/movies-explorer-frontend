@@ -39,6 +39,13 @@
 .info-popup__icon {
   width: 120px;
   height: 120px;
+}
+
+.info-popup__icon_result_success {
+  background: url(../../images/succes-icon.svg) center/100% no-repeat;
+}
+
+.info-popup__icon_result_fail {
   background: url(../../images/fail-icon.svg) center/100% no-repeat;
 }
 
@@ -74,7 +81,7 @@
   .info-popup__container {
     width: 90%;
   }
-  
+
   .info-popup__heading {
     font-size: 20px;
     margin-top: 40px;

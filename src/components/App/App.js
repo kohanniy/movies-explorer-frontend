@@ -46,6 +46,8 @@ const App = () => {
   const [ moreButtonShow, setMoreButtonShow ] = React.useState();
   const [ savedMovies, setSavedMovies ] = React.useState([]);
   const [ isInfoPopupOpen, setIsInfoPopupOpen ] = React.useState(false);
+  const [ successfulUpdate, setSuccessfulUpdate ] = React.useState({});
+  const [ failSavingOrDeletingMovie, setFailSavingOrDeletingMovie ] = React.useState({});
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -87,10 +89,18 @@ const App = () => {
         setIsInfoPopupOpen(true);
         switch(err.status) {
           case 400:
-            setServerErrorMsg('К сожалению, этот фильм сохранить не получится');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'К сожалению этот фильм сохранить не получиться',
+              success: false
+            });
             break;
           default:
-            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Что-то пошло не так! Попробуйте еще раз',
+              success: false
+            });
             break;
         };
       })
@@ -115,13 +125,25 @@ const App = () => {
         setIsInfoPopupOpen(true);
         switch(err.status) {
           case 403:
-            setServerErrorMsg('Вы не можете удалять фильмы, сохраненные другими пользователями');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Вы не можете удалять фильмы, сохраненные другими пользователями',
+              success: false
+            });
             break;
           case 404:
-            setServerErrorMsg('Этот фильм уже удален из сохраненных');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Этот фильм уже удален из сохраненных',
+              success: false
+            });
             break;
           default:
-            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Что-то пошло не так! Попробуйте еще раз',
+              success: false
+            });
             break;
         };
       })
@@ -150,13 +172,25 @@ const App = () => {
         setIsInfoPopupOpen(true);
         switch(err.status) {
           case 403:
-            setServerErrorMsg('Вы не можете удалять фильмы, сохраненные другими пользователями');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Вы не можете удалять фильмы, сохраненные другими пользователями',
+              success: false
+            });
             break;
           case 404:
-            setServerErrorMsg('Этот фильм уже удален из сохраненных');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Этот фильм уже удален из сохраненных',
+              success: false
+            });
             break;
           default:
-            setServerErrorMsg('Что-то пошло не так! Попробуйте еще раз');
+            setFailSavingOrDeletingMovie({
+              ...failSavingOrDeletingMovie,
+              message: 'Что-то пошло не так! Попробуйте еще раз',
+              success: false
+            });
             break;
         };
       })
@@ -178,6 +212,7 @@ const App = () => {
           setToken(data.token);
           setLoggedIn(true);
           history.push('/movies');
+          setServerErrorMsg('');
         }
       })
       .catch((err) => {
@@ -210,6 +245,7 @@ const App = () => {
       .then((data) => {
         if (data) {
           handleLoginFormSubmit(data);
+          setServerErrorMsg('');
         }
       })
       .catch((err) => {
@@ -239,6 +275,13 @@ const App = () => {
     mainApi.updateUserInfo({name, email}, token)
       .then((newUserData) => {
         setCurrentUser(newUserData);
+        setSuccessfulUpdate({
+          ...successfulUpdate,
+          message: 'Данные успешно обновлены',
+          success: true,
+        })
+        setIsInfoPopupOpen(true);
+        setServerErrorMsg('');
       })
       .catch((err) => {
         switch(err.status) {
@@ -410,6 +453,7 @@ const App = () => {
         .then((data) => {
           if (data) {
             setLoggedIn(true);
+            setServerErrorMsg('');
             path === '/signin' || path === '/signup'
               ? history.push('/movies')
               : history.push(path)
@@ -439,6 +483,7 @@ const App = () => {
             if (index === 0 && result.status === 'fulfilled') {
               setCurrentUser(result.value);
               setUser(result.value);
+              setServerErrorMsg('');
             }
 
             if (index === 1 && result.status === 'fulfilled') {
@@ -538,7 +583,7 @@ const App = () => {
           isMovieSaved={isMovieSaved}
           isPopupOpen={isInfoPopupOpen}
           onClosePopup={closePopup}
-          result={serverErrorMsg}
+          result={failSavingOrDeletingMovie}
         />
         <ProtectedRoute
           header={header}
@@ -550,7 +595,7 @@ const App = () => {
           onButtonClick={handleRemoveButtonClick}
           isPopupOpen={isInfoPopupOpen}
           onClosePopup={closePopup}
-          result={serverErrorMsg}
+          result={failSavingOrDeletingMovie}
           onSubmit={handleSearchSavedMovies}
         />
         <ProtectedRoute
@@ -563,6 +608,9 @@ const App = () => {
           serverErrorMsg={serverErrorMsg}
           resetServerErrorMsg={resetServerErrorMsg}
           onSignoutButtonClick={handleSignoutButtonClick}
+          isPopupOpen={isInfoPopupOpen}
+          onClosePopup={closePopup}
+          result={successfulUpdate}
         />
         <Route path='/signin'>
           {header}
