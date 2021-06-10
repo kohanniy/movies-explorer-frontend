@@ -14,6 +14,7 @@ const SavedMoviesPage = (props) => {
     result,
     onSubmit,
     isLoading,
+    onChangeCheckbox,
   } = props;
 
   return (
@@ -22,6 +23,8 @@ const SavedMoviesPage = (props) => {
         <SearchForm
           onSubmit={onSubmit}
           isLOading={isLoading}
+          savedMoviesPage={true}
+          onChangeCheckbox={onChangeCheckbox}
         />
         <MoviesCardList
           savedMoviesPage={true}
