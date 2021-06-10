@@ -71,6 +71,7 @@ const ProfileSection = (props) => {
                 values={values}
                 errors={errors}
                 onFocus={handleFocus}
+                isLoading={isLoading}
               />
             ))
           }

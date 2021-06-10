@@ -13,6 +13,7 @@ const SavedMoviesPage = (props) => {
     onClosePopup,
     result,
     onSubmit,
+    isLoading,
   } = props;
 
   return (
@@ -20,12 +21,14 @@ const SavedMoviesPage = (props) => {
       <PageMainContent>
         <SearchForm
           onSubmit={onSubmit}
+          isLOading={isLoading}
         />
         <MoviesCardList
           savedMoviesPage={true}
           resultMsg={resultMsg}
           moviesData={moviesData}
           onButtonClick={onButtonClick}
+          isLoading={isLoading}
         />
       </PageMainContent>
       <Footer />

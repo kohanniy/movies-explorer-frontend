@@ -74,6 +74,7 @@ const AuthSection = (props) => {
                 values={values}
                 errors={errors}
                 onFocus={handleFocus}
+                isLoading={isLoading}
               />
             ))
           }

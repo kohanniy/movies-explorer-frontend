@@ -17,6 +17,7 @@ const FormLabel = (props) => {
     handleChange,
     values,
     onFocus,
+    isLoading
   } = props;
 
   return (
@@ -39,6 +40,7 @@ const FormLabel = (props) => {
         pattern={inputName === 'name' ? regExpForCheckInputName : null}
         title={inputName === 'name' ? 'Имя должно содержать только латиницу, кириллицу, дефисы и пробелы' : null}
         onFocus={onFocus}
+        disabled={isLoading}
       />
       <InputError
         inputName={inputName}
