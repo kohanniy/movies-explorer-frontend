@@ -42,10 +42,13 @@ const MoviesCardList = (props) => {
                         : <>
                             <ul className='cards__list'>
                               {
-                                moviesData.map((movie, index) =>
+                                moviesData.map((movie) =>
                                   (
                                     <MoviesCard
-                                      key={index}
+                                      key={savedMoviesPage
+                                            ? movie.movieId
+                                            : movie.id
+                                          }
                                       movieData={movie}
                                       savedMoviesPage={savedMoviesPage}
                                       onSaveButtonClick={handleSaveMovieButtonClick}
