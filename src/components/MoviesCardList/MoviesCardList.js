@@ -16,6 +16,7 @@ const MoviesCardList = (props) => {
     handleSaveMovieButtonClick,
     isMovieSaved,
     onButtonClick,
+    saveAndDeleteButtonDisabled,
   } = props;
 
   return (
@@ -54,6 +55,7 @@ const MoviesCardList = (props) => {
                                       onSaveButtonClick={handleSaveMovieButtonClick}
                                       isMovieSaved={isMovieSaved}
                                       onButtonClick={onButtonClick}
+                                      isDisabled={saveAndDeleteButtonDisabled}
                                     />
                                   )
                                 )

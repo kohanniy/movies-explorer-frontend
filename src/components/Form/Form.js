@@ -11,6 +11,7 @@ const Form = (props) => {
     onSubmit,
     isDisabled,
     serverErrorMsg,
+    isLoading,
   } = props;
 
   let buttonClasses = `form__submit ${buttonClassName}`;
@@ -31,7 +32,7 @@ const Form = (props) => {
       <button
         type='submit'
         className={buttonClasses}
-        disabled={isDisabled}
+        disabled={isDisabled || isLoading}
       >
         {buttonText}
       </button>

@@ -48,6 +48,7 @@ function App() {
   const [ isInfoPopupOpen, setIsInfoPopupOpen ] = React.useState(false);
   const [ successfulUpdate, setSuccessfulUpdate ] = React.useState({});
   const [ failSavingOrDeletingMovie, setFailSavingOrDeletingMovie ] = React.useState({});
+  const [ saveAndDeleteButtonDisabled, setSaveAndDeleteButtonDisabled ] = React.useState(false);
 
   const windowWidth = useWindowWidth();
   const location = useLocation();
@@ -79,6 +80,7 @@ function App() {
   // Сохранить фильм
   function saveMovie(movieData) {
     const token = getToken();
+    setSaveAndDeleteButtonDisabled(true);
     mainApi.saveMovie(movieData, token)
       .then((movie) => {
         setSavedMovies([...savedMovies, movie]);
@@ -104,12 +106,16 @@ function App() {
             break;
         };
       })
+      .finally(() => {
+        setSaveAndDeleteButtonDisabled(false);
+      })
   };
 
   // Удалить фильм
   function removeMovie(movieData) {
     const token = getToken();
     const removedMovieId = savedMovies.find(savedMovie => savedMovie.movieId === movieData.id)._id;
+    setSaveAndDeleteButtonDisabled(true);
     mainApi.removeMovie(removedMovieId, token)
       .then((data) => {
         if (data) {
@@ -147,6 +153,9 @@ function App() {
             break;
         };
       })
+      .finally(() => {
+        setSaveAndDeleteButtonDisabled(false);
+      })
   };
 
   function handleSaveButtonClick(movieData) {
@@ -157,6 +166,7 @@ function App() {
   // Удалить фильм со страницы сохраненных фильмов
   function handleRemoveButtonClick(movieData) {
     const token = getToken();
+    setSaveAndDeleteButtonDisabled(true);
      mainApi.removeMovie(movieData._id, token)
       .then((data) => {
         if (data) {
@@ -193,6 +203,9 @@ function App() {
             });
             break;
         };
+      })
+      .finally(() => {
+        setSaveAndDeleteButtonDisabled(false);
       })
   }
 
@@ -272,7 +285,7 @@ function App() {
 
   function handleUpdateUser({name, email}) {
     const token = getToken();
-    setIsLoading(!isLoading);
+    setIsLoading(true);
     mainApi.updateUserInfo({name, email}, token)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -612,6 +625,7 @@ function App() {
           onClosePopup={closePopup}
           result={failSavingOrDeletingMovie}
           onChangeCheckbox={onChangeCheckbox}
+          saveAndDeleteButtonDisabled={saveAndDeleteButtonDisabled}
         />
         <ProtectedRoute
           header={header}
@@ -627,6 +641,7 @@ function App() {
           onSubmit={handleSearchSavedMovies}
           isLoading={isLoading}
           onChangeCheckbox={onChangeCheckbox}
+          saveAndDeleteButtonDisabled={saveAndDeleteButtonDisabled}
         />
         <ProtectedRoute
           header={header}

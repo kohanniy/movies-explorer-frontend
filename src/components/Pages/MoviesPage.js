@@ -19,6 +19,7 @@ const MoviesPage = (props) => {
     onClosePopup,
     result,
     onChangeCheckbox,
+    saveAndDeleteButtonDisabled,
   } = props;
 
   return (
@@ -40,6 +41,7 @@ const MoviesPage = (props) => {
           handleSaveMovieButtonClick={handleSaveMovieButtonClick}
           isMovieSaved={isMovieSaved}
           onButtonClick={onButtonClick}
+          saveAndDeleteButtonDisabled={saveAndDeleteButtonDisabled}
         />
       </PageMainContent>
       <Footer />

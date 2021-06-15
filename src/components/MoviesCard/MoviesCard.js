@@ -9,6 +9,7 @@ const MoviesCard = (props) => {
     savedMoviesPage,
     isMovieSaved,
     onButtonClick,
+    isDisabled,
   } = props;
 
   let isSaved;
@@ -63,6 +64,7 @@ const MoviesCard = (props) => {
           type='button'
           className={btnClasses}
           aria-label={btnAriaLabel}
+          disabled={isDisabled}
         />
       </div>
     </li>
