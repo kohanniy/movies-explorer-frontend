@@ -17,7 +17,7 @@ const FormLabel = (props) => {
     handleChange,
     values,
     onFocus,
-    isLoading
+    isLoading,
   } = props;
 
   return (

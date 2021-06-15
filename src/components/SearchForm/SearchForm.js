@@ -85,7 +85,13 @@ const SearchForm = (props) => {
             <span className='search__pseudo-checkbox' />
             <span className='search__label-text'>Короткометражки</span>
           </label>
-          <button type='submit' className='search__submit-btn'>Поиск</button>
+          <button
+            type='submit'
+            className='search__submit-btn'
+            disabled={isLoading}
+          >
+            Поиск
+          </button>
         </form>
       </Container>
     </section>

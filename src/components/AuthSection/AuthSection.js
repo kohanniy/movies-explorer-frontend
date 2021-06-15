@@ -56,6 +56,7 @@ const AuthSection = (props) => {
           isDisabled={!isValid}
           buttonText={isLoading ? 'Данные отправляются...' : sectionData.buttonText}
           serverErrorMsg={serverErrorMsg}
+          isLoading={isLoading}
         >
           {
             inputsData.map((item, index) => (

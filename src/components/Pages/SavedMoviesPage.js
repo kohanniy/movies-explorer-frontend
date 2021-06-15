@@ -15,6 +15,7 @@ const SavedMoviesPage = (props) => {
     onSubmit,
     isLoading,
     onChangeCheckbox,
+    saveAndDeleteButtonDisabled,
   } = props;
 
   return (
@@ -32,6 +33,7 @@ const SavedMoviesPage = (props) => {
           moviesData={moviesData}
           onButtonClick={onButtonClick}
           isLoading={isLoading}
+          saveAndDeleteButtonDisabled={saveAndDeleteButtonDisabled}
         />
       </PageMainContent>
       <Footer />
