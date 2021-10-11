@@ -3,7 +3,7 @@
 
 [Исходный макет приложения в Figma](https://www.figma.com/file/Gyj8tn99IbRQPwlJhvMmgg/Diploma-(Copy)?node-id=891%3A3857)
 
-Ссылка на сайт: [https://movies-explorer.kohanniy.nomoredomains.club/](https://movies-explorer.kohanniy.nomoredomains.club)
+Ссылка на сайт: [https://kohanniy-movies-explorer.netlify.app/](https://kohanniy-movies-explorer.netlify.app/)
 
 Фронтенд взаимодействует с двумя API:
 * Сторонним [https://api.nomoreparties.co/beatfilm-movies](https://api.nomoreparties.co/beatfilm-movies) - для получения фильмов
