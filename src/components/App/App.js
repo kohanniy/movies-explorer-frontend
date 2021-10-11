@@ -512,6 +512,7 @@ function App() {
           };
         })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Получение данных о пользователе и сохраненных фильмах
