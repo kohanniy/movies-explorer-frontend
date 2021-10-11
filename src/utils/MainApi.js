@@ -116,7 +116,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  url: `https://api.mov-exp.kohanniy.nomoredomains.club`,
+  url: `https://peaceful-forest-55370.herokuapp.com`,
   parseResponseFromServer
 });
 
